@@ -66,4 +66,11 @@ public:
 		  std::string const &component = "Unknown");
 };
 
+class   DLError : public ArcadeError
+{
+public:
+        DLError(std::string const &message,
+		  std::string const &component = "Unknown");
+};
+
 #endif /* ERRORS_HPP_ */

@@ -57,3 +57,9 @@ GameInitError::GameInitError(std::string const &message, std::string const &comp
 {
 
 }
+
+DLError::DLError(std::string const &message, std::string const &component)
+	: ArcadeError(message, component)
+{
+
+}
