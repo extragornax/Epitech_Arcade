@@ -1,0 +1,29 @@
+//
+// EPITECH PROJECT, 2018
+// cpp_arcade
+// File description:
+// ILib class header
+//
+
+#ifndef ILIB_HPP_
+# define ILIB_HPP_
+
+class   ILib
+{
+public:
+        // Dtor
+        virtual ~ILib() = 0;
+
+        // Member functions
+	virtual bool	createWindow() = 0;
+	virtual void	destroyWindow() = 0;
+	virtual void	clear() = 0;
+	virtual void	playSound(const string &path) = 0;
+	virtual void	stopSoud(const string &path) = 0;
+	virtual void	drawText(Text &text) = 0;
+	virtual void	drawDisp(Disp &disp) = 0;
+	virtual void	drawButton(Button &button) = 0;
+	virtual void	drawBoard(Board &board) = 0;
+};
+
+#endif /* ILIB_HPP_ */
