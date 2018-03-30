@@ -8,6 +8,8 @@
 #ifndef IGAME_HPP_
 # define IGAME_HPP_
 
+#include "Board.hpp"
+
 class   IGame
 {
 public:
@@ -15,12 +17,11 @@ public:
         virtual ~IGame() = 0;
 	
         // Member functions
-	virtual void	initGame() = 0;
-	virtual Board	&updateBoard(Event last) = 0;
+	virtual Scene	&updateScene(Event last) = 0;
 	virtual void	saveScore() = 0;
 	virtual void	menuPause() = 0;
 	virtual bool	endGame() = 0;
-	virtual gameState	getStatus();//?
+	virtual gameState	getStatus();
 };
 
 #endif /* IGAME_HPP_ */
