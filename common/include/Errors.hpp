@@ -45,8 +45,6 @@ public:
 		  std::string const &component = "Unknown");
 };
 
-GraphicalInLibError
-
 class   GraphicalInLibError : public ArcadeError
 {
 public:

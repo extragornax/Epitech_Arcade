@@ -16,29 +16,23 @@
 LNcurses::LNcurses()
 	: _window(nullptr)
 {
-	createWindow();
-}
-
-LNcurses::~LNcurses()
-{
-	destroyWindow();
-}
-
-bool    LNcurses::createWindow()
-{
 	if ((_window = initscr()) == nullptr
 	|| (raw() == ERR)
 	|| (noecho()) == ERR
-	|| (keypad(stdscr, 1)) == ERR
-	|| atexit(LNcurses::destroyWindow) != 0)
+	|| (keypad(stdscr, 1)) == ERR)
 		throw new GraphicalInitError("Error in Ncurses init\n");
-
 }
 
-void    LNcurses::destroyWindow()
+/*
+** TODO   Trouver un bypass pour throw on endwin error
+**
+**	if ((endwin()) == ERR)
+**		throw new GraphicalCleanupError("Error on Ncurses exit\n");
+ */
+
+LNcurses::~LNcurses()
 {
-	if ((endwin()) == ERR)
-		throw new GraphicalCleanupError("Error on Ncurses exit\n");
+	endwin();
 }
 
 void	LNcurses::clear()
@@ -60,14 +54,14 @@ char	LNcurses::getKey()
 
 void    LNcurses::drawText(Text &text)
 {
-	moveCursor(text.Position);
+	moveCursor(text.pos);
 	print_text(text.text);
 	refreshScreen();
 }
 
 void    LNcurses::moveCursor(Position pos)
 {
-	if ((move((int) pos[0], (int) pos[1])) == ERR)
+	if ((move((int) std::get<0>(pos), (int) std::get<1>(pos))) == ERR)
 		throw new GraphicalInLibError("Error in moving the pointer to print in Ncurses\n");
 }
 

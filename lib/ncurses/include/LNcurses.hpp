@@ -15,6 +15,9 @@ class LNcurses : public ILib {
         public:
             LNcurses();
             ~LNcurses();
+            void clear();
+            void drawText(Text &text);
+            char getKey();
 
         public:
 			void moveCursor(Position pos);
