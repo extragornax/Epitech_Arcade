@@ -14,7 +14,7 @@ Dlloader::Dlloader(std::string path)
 {
 	_open = dlopen(_path, RTLD_LAZY);
 	if ((error = dlerror()) != NULL)
-		throw new DLError::DLError("Error in loading " + _path + " lib");
+		throw new DLError("Error in loading " + _path + " lib");
 }
 
 Dlloader::~Dlloader()
@@ -24,11 +24,10 @@ Dlloader::~Dlloader()
 	dlerror();
 	dlclose(_name);
 	if ((error = dlerror()) != NULL)
-		throw new DLError::DLError("Error in closing " + _path + " lib");
+		throw new DLError("Error in closing " + _path + " lib");
 }
 
 //entrypoint ? What
-
 std::unique_ptr<T>	&getInstance(std::string entryPoint) noexcept
 {
 	// return quoi ? Oo

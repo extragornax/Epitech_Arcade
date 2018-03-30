@@ -13,12 +13,12 @@
 class   ArcadeError : public std::exception
 {
 public:
-        // Ctor
-        ArcadeError(std::string const &message,
+	// Ctor
+	ArcadeError(std::string const &message,
 		 std::string const &component = "Unknown");
 
-        // Dtor
-        ~ArcadeError();
+	// Dtor
+	~ArcadeError();
 
 	// Member functions
 	const std::string	&getComponent() const noexcept;
@@ -41,35 +41,44 @@ public:
 class   GraphicalInitError : public ArcadeError
 {
 public:
-        GraphicalInitError(std::string const &message,
+	GraphicalInitError(std::string const &message,
+		  std::string const &component = "Unknown");
+};
+
+GraphicalInLibError
+
+class   GraphicalInLibError : public ArcadeError
+{
+public:
+	GraphicalInLibError(std::string const &message,
 		  std::string const &component = "Unknown");
 };
 
 class   GraphicalCleanupError : public ArcadeError
 {
 public:
-        GraphicalCleanupError(std::string const &message,
+	GraphicalCleanupError(std::string const &message,
 		  std::string const &component = "Unknown");
 };
 
 class   GameCleanupError : public ArcadeError
 {
 public:
-        GameCleanupError(std::string const &message,
+	GameCleanupError(std::string const &message,
 		  std::string const &component = "Unknown");
 };
 
 class   GameInitError : public ArcadeError
 {
 public:
-        GameInitError(std::string const &message,
+	GameInitError(std::string const &message,
 		  std::string const &component = "Unknown");
 };
 
 class   DLError : public ArcadeError
 {
 public:
-        DLError(std::string const &message,
+	DLError(std::string const &message,
 		  std::string const &component = "Unknown");
 };
 

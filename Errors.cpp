@@ -40,6 +40,12 @@ GraphicalInitError::GraphicalInitError(std::string const &message, std::string c
 
 }
 
+GraphicalInLibError::GraphicalInLibError(std::string const &message, std::string const &component)
+	: ArcadeError(message, component)
+{
+
+}
+
 GraphicalCleanupError::GraphicalCleanupError(std::string const &message, std::string const &component)
 	: ArcadeError(message, component)
 {

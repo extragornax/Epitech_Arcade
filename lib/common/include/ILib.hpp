@@ -11,15 +11,15 @@
 class   ILib
 {
 public:
-        // Dtor
-        virtual ~ILib() = 0;
+    // Dtor
+    virtual ~ILib() = 0;
 
-        // Member functions
+    // Member functions
 	virtual bool	createWindow() = 0;
 	virtual void	destroyWindow() = 0;
 	virtual void	clear() = 0;
-	virtual void	playSound(const string &path) = 0;
-	virtual void	stopSoud(const string &path) = 0;
+	virtual void	playSound(const std::string &path) = 0;
+	virtual void	stopSoud(const std::string &path) = 0;
 	virtual void	drawText(Text &text) = 0;
 	virtual void	drawDisp(Disp &disp) = 0;
 	virtual void	drawButton(Button &button) = 0;
