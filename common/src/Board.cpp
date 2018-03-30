@@ -1,0 +1,77 @@
+/*
+** EPITECH PROJECT, 2018
+** Arcade
+** File description:
+** Board.cpp
+*/
+
+#include <iostream>
+#include "Board.hpp"
+
+void Board::Tile::setSprites(const std::vector<std::string> sprites)
+{
+	_sprites = sprites;
+}
+
+void Board::Tile::setCharacters(const std::vector<char> characteres)
+{
+	_characteres = characteres;
+}
+
+void Board::Tile::setDirection(const Direction direction)
+{
+	_direction = direction;
+}
+
+std::vector<std::string> Board::Tile::getSprites() const
+{
+	return _sprites;
+}
+
+std::vector<char> Board::Tile::getCharacters() const
+{
+	return _characteres;
+}
+
+Direction Board::Tile::getDirection() const
+{
+	return _direction;
+}
+
+void Board::setSprites(const Position &pos, const std::vector<std::string> sprites)
+{
+	_board[pos.first][pos.second].setSprites(sprites);
+}
+
+void Board::setCharacters(const Position &pos, const std::vector<char> characteres)
+{
+	_board[pos.first][pos.second].setCharacters(characteres);
+}
+
+void Board::setDirection(const Position &pos, const Direction direction)
+{
+	_board[pos.first][pos.second].setDirection(direction);
+}
+
+std::vector<std::string> Board::getSprites(const Position &pos) const
+{
+	return _board[pos.first][pos.second].getSprites();
+}
+
+std::vector<char> Board::getCharacters(const Position &pos) const
+{
+	return _board[pos.first][pos.second].getCharacters();
+}
+
+Direction Board::getDirection(const Position &pos) const
+{
+	return _board[pos.first][pos.second].getDirection();
+}
+
+void Board::createTile(const Position &pos, const std::vector<std::string> sprites,
+			const std::vector<char> characters, const Direction direction)
+{
+	_board[pos.first][pos.second].setSprites(sprites);
+	_board[pos.first][pos.second].setCharacters(characters);
+	_board[pos.first][pos.second].setDirection(direction);
+}
