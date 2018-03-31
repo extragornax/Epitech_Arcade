@@ -26,10 +26,11 @@ class LNcurses : public ILib {
 			void _moveCursor(Position pos);
 			void _refreshScreen();
             void _print_text(std::string text);
+            void _get_winSize();
         
         private:
             char _getch;
             WINDOW *_window;
-            size_t _start_game_x;
-            size_t _start_game_y;
+            Position _start_game;
+            Position _screen_size;
 };
