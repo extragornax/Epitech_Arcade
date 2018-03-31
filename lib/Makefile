@@ -11,8 +11,7 @@ LD	=	ld
 
 RM	=	rm -f
 
-SRCSNCURSES	= ./common/src/Ilib.cpp \
-		  ./ncurses/src/LNcurses.cpp
+SRCSNCURSES	= ./ncurses/src/LNcurses.cpp
 
 OBJSNCURSES	= $(SRCSNCURSES:.cpp=.o)
 
