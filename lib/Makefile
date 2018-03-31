@@ -7,7 +7,7 @@
 
 NAMENCURSES	= lib_arcade_ncurses.so
 
-LD	=	ld
+CC	=	g++
 
 RM	=	rm -f
 
@@ -25,7 +25,7 @@ LDFLAGS	= -shared
 all: $(NAMENCURSES)
 
 $(NAMENCURSES): $(OBJSNCURSES)
-	 $(LD) $(LDFLAGS) -o $(NAMENCURSES) $(OBJSNCURSES)
+	 $(CC) $(LDFLAGS) -o $(NAMENCURSES) $(OBJSNCURSES)
 
 clean:
 	$(RM) $(OBJSNCURSES)
