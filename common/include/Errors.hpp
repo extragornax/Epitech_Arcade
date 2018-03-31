@@ -5,8 +5,7 @@
 // Errors class header
 //
 
-#ifndef ERRORS_HPP_
-# define ERRORS_HPP_
+#pragma once
 
 # include <string>
 
@@ -79,5 +78,3 @@ public:
 	DLError(std::string const &message,
 		  std::string const &component = "Unknown");
 };
-
-#endif /* ERRORS_HPP_ */
