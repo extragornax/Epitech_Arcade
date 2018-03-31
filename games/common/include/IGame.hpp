@@ -9,6 +9,7 @@
 # define IGAME_HPP_
 
 #include "Board.hpp"
+#include "Scene.hpp"
 
 class   IGame
 {
@@ -17,11 +18,11 @@ public:
         virtual ~IGame() = 0;
 	
         // Member functions
-	virtual Scene	&updateScene(Event last) = 0;
-	virtual void	saveScore() = 0;
+	virtual Scene	&updateScene(std::string last) = 0;
+	virtual void	saveScore(std::string nickname) = 0;
 	virtual void	menuPause() = 0;
 	virtual bool	endGame() = 0;
-	virtual gameState	getStatus();
+	virtual gameStatus	getStatus();
 };
 
 #endif /* IGAME_HPP_ */

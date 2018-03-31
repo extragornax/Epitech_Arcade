@@ -10,6 +10,8 @@
 
 # include "IGame.hpp"
 # include "Board.hpp"
+# include "Scene.hpp"
+# include "Utils.hpp"
 
 class   Nibbler : public IGame
 {
@@ -21,30 +23,31 @@ public:
         ~Nibbler() override;
 
         // Member functions
-	Scene	&updateScene(int event) override;
-	void	saveScore() override;
+	Scene	&updateScene(std::string event) override;
+	void	saveScore(std::string nickname) override;
 	void	menuPause() override;
 	bool	endGame() override;
-	gameState	getStatus() override;
+	gameStatus	getStatus() override;
 
 	// Public properties
 
 private:
 	// Private member functions
-        void	&_setBoard();
+        void	_setBoard();
 	void	_spawnFood();
-	void	_updateBoard();
-	void	_moveSideway(Board &board, int i, int j, int i2, int j2, int incr);
-	void	_moveUp();
-	void	_moveDown();
+	void	_updateBoard(Board &board, std::string event);
+	void	_moveSideway(Board &board, long unsigned int i, long unsigned int j,
+			     long unsigned int i2, long unsigned int j2, int incr);
+	void	_moveVertical(Board &board, long unsigned int i, long unsigned int j,
+			      long unsigned int i2, long unsigned int j2, int incr);
 	
 private:
         // Properties
         Scene			_nibblerScene;
 	std::list<Position>	_snake;
 	size_t			_score;
-	std::bool		_endgame;
-	gameState		_gameStatus;
+        bool			_endgame;
+	gameStatus		_gameStatus;
 };
 
 #endif /* NIBBLER_HPP_ */

@@ -6,22 +6,26 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <memory>
 #include <vector>
 #include <cstddef>
 #include <cstdlib>
+#include <list>
 #include "Define.hpp"
 #include "Nibbler.hpp"
 #include "IGame.hpp"
+#include "Utils.hpp"
 
 extern "C"
 {
 	std::unique_ptr<IGame> createGame()
 	{
-		return std::make_unique(new Nibbler());
+		return std::make_unique<Nibbler> ();
 	}
 }
 
-Nibbler::Nibbler() : _nibblerScene()
+Nibbler::Nibbler()
 {
 	_setBoard();
 	srand(time(NULL));
@@ -30,17 +34,17 @@ Nibbler::Nibbler() : _nibblerScene()
 	_gameStatus = INGAME;
 }
 
-~Nibbler::Nibbler()
+Nibbler::~Nibbler()
 {
 
 }
 
-void	&Nibbler::_setBoard()
+void	Nibbler::_setBoard()
 {
 	std::fstream fs;
 	char str[20];
 
-	fs.open(NIBBLER_CONF, ios_base::in);
+	fs.open(NIBBLER_CONF, std::ios_base::in);
 	for (int i = 0; i < 20; i++) {
 		fs.getline(str, 20);
 		for (int j = 0; j < 20; j++) {
@@ -49,21 +53,21 @@ void	&Nibbler::_setBoard()
 			if (str[j] == '1') {
 				sprites.push_back(WALL_SPRITE);
 				chars.push_back(WALL_CHAR);
-				_nibblerScene.getBoard().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
 			} else if (str[j] == '3') {
 				_snake.push_front(std::make_pair(i, j));
 				sprites.push_back(SNAKE_BODY_SPRITE);
 				chars.push_back(SNAKE_BODY_CHAR);
-				_nibblerScene.getBoard().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
 			} else if (str[j] == '2') {
 				_snake.push_back(std::make_pair(i, j));
 				sprites.push_back(SNAKE_BODY_SPRITE);
 				chars.push_back(SNAKE_BODY_CHAR);
-				_nibblerScene.getBoard().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
 			} else {
 				sprites.push_back(BACKGROUND_SPRITE);
 				chars.push_back(BACKGROUND_CHAR);
-				_nibblerScene.getBoard().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
 			}
 		}
 	}
@@ -71,16 +75,16 @@ void	&Nibbler::_setBoard()
 
 Scene	&Nibbler::updateScene(std::string event)
 {
-	_updateBoard(_nibblerScene.getBoard(), event);
+	_updateBoard(_nibblerScene.getBoardGame(), event);
 	return (_nibblerScene);
 }
 
-void	Nibbler::_upadeBoard(Board &board)
+void	Nibbler::_updateBoard(Board &board, std::string event)
 {
-	int i = std::get<0> (_snake.front());
-	int j = std::get<1> (_snake.front());
-	int i2 = std::get<0> (_snake.back());
-	int j2 = std::get<1> (_snake.back());
+	long unsigned int i = std::get<0> (_snake.front());
+	long unsigned int j = std::get<1> (_snake.front());
+	long unsigned int i2 = std::get<0> (_snake.back());
+	long unsigned int j2 = std::get<1> (_snake.back());
 
 	if (event == "KeyRight") {
 		_moveSideway(board, i, j, i2, j2, 1);
@@ -99,7 +103,8 @@ void	Nibbler::_upadeBoard(Board &board)
 	}
 }
 
-void	Nibbler::_moveVertical(Board &board, int i, int j, int i2, int j2, int incr)
+void	Nibbler::_moveVertical(Board &board, long unsigned int i, long unsigned int j,
+			       long unsigned int i2, long unsigned int j2, int incr)
 {
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
@@ -107,9 +112,9 @@ void	Nibbler::_moveVertical(Board &board, int i, int j, int i2, int j2, int incr
 	// Recovers head and tail of the snake and the second node position
 	Position pos_first = std::make_pair(i, j + incr);
 	Position pos_last = std::make_pair(i2, j2);
-	Position pos_second = _snake.begin().next();
+	Position pos_second = *std::next(_snake.begin());
 
-	if (j + incr < 20 && j + incr >= 0 && board.getCharacters(std::make_pair(i, j + incr)) == BACKGROUND_CHAR) {
+	if (j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == BACKGROUND_CHAR) {
 		// Adds a new node to the list in front and removes one in the back, updating
 		// the board at the same time.
 		chars.push_back(SNAKE_BODY_CHAR);
@@ -125,7 +130,7 @@ void	Nibbler::_moveVertical(Board &board, int i, int j, int i2, int j2, int incr
 		board.setCharacters(pos_last, chars);
 		board.setSprites(pos_last, sprites);
 		_snake.pop_back();
-	} else if (j + incr < 20 && j + incr >= 0 && board.getCharacters(std::make_pair(i, j + incr)) == FOOD_CHAR) {
+	} else if (j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == FOOD_CHAR) {
 		// Adds a new node to the front of the list, but doesnt remove one in the back
 		// since we simply gained a node via eating.
 		chars.push_back(SNAKE_BODY_CHAR);
@@ -134,7 +139,8 @@ void	Nibbler::_moveVertical(Board &board, int i, int j, int i2, int j2, int incr
 		board.setCharacters(pos_first, chars);
 		board.setSprites(pos_first, sprites);
 		board.setDirection(pos_first, direction);
-	} else if (j + incr < 20 && j + incr >= 0 && pos_second == std::make_pair(i, j + incr)) {
+		_spawnFood();
+	} else if (j + incr < 20 && pos_second == std::make_pair(i, j + incr)) {
 		// Means you're trying to go backwards, which you can't do in snake, so just does nothing.
 		;
 	} else {
@@ -144,7 +150,8 @@ void	Nibbler::_moveVertical(Board &board, int i, int j, int i2, int j2, int incr
 	}
 }
 
-void	Nibbler::_moveSideway(Board &board, int i, int j, int i2, int j2, int incr)
+void	Nibbler::_moveSideway(Board &board, long unsigned int i, long unsigned int j,
+			      long unsigned int i2, long unsigned int j2, int incr)
 {
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
@@ -152,9 +159,9 @@ void	Nibbler::_moveSideway(Board &board, int i, int j, int i2, int j2, int incr)
 	// Recovers head and tail of the snake and the second node position
 	Position pos_first = std::make_pair(i + incr, j);
 	Position pos_last = std::make_pair(i2, j2);
-	Position pos_second = _snake.begin().next();
+	Position pos_second = *std::next(_snake.begin());
 
-	if (i + incr < 20 && i + incr >= 0 && board.getCharacters(std::make_pair(i + incr, j)) == BACKGROUND_CHAR) {
+	if (i + incr < 20 && board.getCharacters(std::make_pair(i + incr, j))[0] == BACKGROUND_CHAR) {
 		// Adds a new node to the list in front and removes one in the back, updating
 		// the board at the same time.
 		chars.push_back(SNAKE_BODY_CHAR);
@@ -170,7 +177,7 @@ void	Nibbler::_moveSideway(Board &board, int i, int j, int i2, int j2, int incr)
 		board.setCharacters(pos_last, chars);
 		board.setSprites(pos_last, sprites);
 		_snake.pop_back();
-	} else if (i + incr < 20 && i + incr >= 0 && board.getCharacters(std::make_pair(i + incr, j)) == FOOD_CHAR) {
+	} else if (i + incr < 20 && board.getCharacters(std::make_pair(i + incr, j))[0] == FOOD_CHAR) {
 		// Adds a new node to the front of the list, but doesnt remove one in the back
 		// since we simply gained a node via eating.
 		chars.push_back(SNAKE_BODY_CHAR);
@@ -179,7 +186,7 @@ void	Nibbler::_moveSideway(Board &board, int i, int j, int i2, int j2, int incr)
 		board.setCharacters(pos_first, chars);
 		board.setSprites(pos_first, sprites);
 		board.setDirection(pos_first, direction);
-	} else if (i + incr < 20 && i + incr >= 0 && pos_second == std::make_pair(i + incr, j)) {
+	} else if (i + incr < 20 && pos_second == std::make_pair(i + incr, j)) {
 		// Means you're trying to go backwards, which you can't do in snake, so just does nothing.
 		;
 	} else {
@@ -197,19 +204,20 @@ void	Nibbler::_spawnFood()
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
 
-	while (_nibblerScene.getBoard().getCharacters(std::make_pair(i, j))[0] != BACKGROUND_SPRITE) {
+	while (_nibblerScene.getBoardGame().getCharacters(std::make_pair(i, j))[0] != BACKGROUND_CHAR) {
 		i = rand() % 20;
 		j = rand() % 20;
 	}
 	chars.push_back(FOOD_CHAR);
 	sprites.push_back(FOOD_SPRITE);
-	_nibblerScene.getBoard().setCharacters(std::make_pair(i, j), chars);
-	_nibblerScene.getBoard().setSprites(std::make_pair(i, j), sprites);
+	_nibblerScene.getBoardGame().setCharacters(std::make_pair(i, j), chars);
+	_nibblerScene.getBoardGame().setSprites(std::make_pair(i, j), sprites);
 }
 
 void	Nibbler::saveScore(std::string nickname)
 {
 	//append score to a file, to be done later ?
+	(void) nickname;
 }
 
 void	Nibbler::menuPause()
@@ -223,7 +231,7 @@ bool	Nibbler::endGame()
 	return _endgame;
 }
 
-gameState	Nibbler::getStatus()
+gameStatus	Nibbler::getStatus()
 {
 	//get gameState (ingame, paused, etc)
 	return _gameStatus;
