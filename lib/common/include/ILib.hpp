@@ -8,6 +8,8 @@
 #ifndef ILIB_HPP_
 # define ILIB_HPP_
 
+# include "Scene.hpp"
+
 class   ILib
 {
 public:
@@ -22,6 +24,7 @@ public:
 	virtual void	drawDisp(Disp &disp) = 0;
 	virtual void	drawButton(Button &button) = 0;
 	virtual void	drawScene(Scene &scene) = 0;
+	virtual void	display() = 0;
 };
 
 #endif /* ILIB_HPP_ */

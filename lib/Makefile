@@ -17,9 +17,9 @@ OBJSNCURSES	= $(SRCSNCURSES:.cpp=.o)
 
 CPPFLAGS = -I ./common/include -I ./ncurses/include -I ../common/include
 
-CPPFLAGS += -W -Wall -Wextra
+CPPFLAGS += -W -Wall -Wextra -fPIC -lncurses
 
-LDFLAGS	= -shared -fPIC
+LDFLAGS	= -shared
 
 
 all: $(NAMENCURSES)
@@ -36,3 +36,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+# gcc -c -Wall -Werror -fpic one.c

@@ -12,6 +12,24 @@
 
 using Position = std::pair<size_t, size_t>;
 
+/*
+1 -> 4: ARROW_DIRECTION
+5: ESCAPE
+6: F12
+7: BACKSPACE
+8: KEY_R
+9: HOME
+10: END
+11: PAGE_DOWN
+12: PAGE_UP
+*/
+
+static const std::vector<std::pair<size_t, std::string>> DICO =
+		{{0, "NO_EVENT"},
+		{1, "LEFT"}, {2, "RIGHT"}, {3, "UP"}, {4, "DOWN"},
+		{5, "PAUSE"}, {6, "EXIT"}, {7, "BACK_MENU"}, {8, "RELOAD_GAME"},
+		{9, "PREV_LIB"}, {10, "NEXT_LIB"}, {11, "PREV_GAME"}, {12, "NEXT_GAME"}};
+
 enum Direction {
 	NORTH,
 	SOUTH,
