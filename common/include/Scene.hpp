@@ -2,7 +2,7 @@
 // EPITECH PROJECT, 2018
 // cpp_arcade
 // File description:
-// Errors class header
+// Scene class header
 //
 
 #pragma once

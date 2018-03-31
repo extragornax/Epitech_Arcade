@@ -5,8 +5,7 @@
 // ncurses header
 //
 
-#ifndef LNCURSES_HPP_
-# define LNCURSES_HPP_
+#pragma once
 
 #include <curses.h>
 #include "ILib.hpp"
@@ -17,16 +16,20 @@ class LNcurses : public ILib {
             ~LNcurses();
             void clear();
             void drawText(Text &text);
+            void drawDisp(Disp &disp);
+            void drawButton(Button &button);
+            void drawScene(Scene &scene);
+            void display();
             char getKey();
 
-        public:
-			void moveCursor(Position pos);
-			void refreshScreen();
-            void print_text(std::string text);
+        private:
+			void _moveCursor(Position pos);
+			void _refreshScreen();
+            void _print_text(std::string text);
         
         private:
             char _getch;
             WINDOW *_window;
+            size_t _start_game_x;
+            size_t _start_game_y;
 };
-
-#endif /* LNCURSES_HPP_ */

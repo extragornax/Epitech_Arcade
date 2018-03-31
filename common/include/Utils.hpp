@@ -25,7 +25,8 @@ using Position = std::pair<size_t, size_t>;
 */
 
 static const std::vector<std::pair<size_t, std::string>> DICO =
-		{{1, "LEFT"}, {2, "RIGHT"}, {3, "UP"}, {4, "DOWN"},
+		{{0, "NO_EVENT"},
+		{1, "LEFT"}, {2, "RIGHT"}, {3, "UP"}, {4, "DOWN"},
 		{5, "PAUSE"}, {6, "EXIT"}, {7, "BACK_MENU"}, {8, "RELOAD_GAME"},
 		{9, "PREV_LIB"}, {10, "NEXT_LIB"}, {11, "PREV_GAME"}, {12, "NEXT_GAME"}};
 
