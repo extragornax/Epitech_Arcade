@@ -12,8 +12,8 @@
 
 class Scene {
     public:
-	    Scene() = default;
-	    ~Scene() = default;
+	Scene();
+	~Scene();
 
     public:
         Board &getBoardGame();

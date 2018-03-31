@@ -33,7 +33,7 @@ static const std::vector<std::pair<size_t, std::string>> DICO =
 enum Direction {
 	NORTH,
 	SOUTH,
-	EST,
+	EAST,
 	WEST,
 };
 
