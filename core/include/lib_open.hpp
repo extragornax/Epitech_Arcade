@@ -10,13 +10,15 @@
 
 #include <iostream>
 #include <memory>
+#include "IGame.hpp"
+#include "ILib.hpp"
 
 class Dlloader {
 public:
 	Dlloader(std::string path);
 	~Dlloader();
-	auto createLibSym();
-	auto createGameSym();
+	std::unique_ptr<ILib> createLibSym();
+	std::unique_ptr<IGame> createGameSym();
 private:
 	std::string _path;
 	void *_open;

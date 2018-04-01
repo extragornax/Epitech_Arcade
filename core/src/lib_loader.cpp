@@ -8,8 +8,6 @@
 #include <dlfcn.h>
 #include "lib_open.hpp"
 #include "Errors.hpp"
-#include "ILib.hpp"
-#include "IGame.hpp"
 
 Dlloader::Dlloader(std::string path)
 	: _path(path)
@@ -26,7 +24,7 @@ Dlloader::~Dlloader()
 	dlclose(_open);
 }
 
-auto Dlloader::createLibSym()
+std::unique_ptr<ILib> Dlloader::createLibSym()
 {
 	std::unique_ptr<ILib> createLib();
 
@@ -34,7 +32,7 @@ auto Dlloader::createLibSym()
 	return createLib;
 }
 
-auto Dlloader::createGameSym()
+std::unique_ptr<IGame> Dlloader::createGameSym()
 {
 	std::unique_ptr<IGame> createGame();
 
