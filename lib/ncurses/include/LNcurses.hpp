@@ -22,13 +22,13 @@ class LNcurses : public ILib {
             void drawButton(Button &button);
             void drawScene(Scene &scene);
             void display();
-            const auto getKey();
+	std::string getKey();
 
         private:
-			void _moveCursor(Position pos);
-			void _refreshScreen();
-            void _print_text(std::string text);
-            void _get_winSize();
+	void _moveCursor(Position pos);
+	void _refreshScreen();
+	void _print_text(std::string text);
+	void _get_winSize();
 
         private:
             char _getch;

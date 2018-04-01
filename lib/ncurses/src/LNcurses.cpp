@@ -111,7 +111,7 @@ void	LNcurses::drawScene(Scene &scene)
 	}
 }
 
-const auto	LNcurses::getKey()
+std::string LNcurses::getKey()
 {
 	int ret = 0;
 	size_t to_find = 0;
@@ -156,12 +156,19 @@ const auto	LNcurses::getKey()
 			to_find = 12;
 			break;
 	}
+	for (unsigned int i = 0; i < DICO.size(); i++) {
+		if (std::get<0> (DICO[i]) == to_find) {
+			return std::get<1> (DICO[i]);
+		}
+	}
+	return "NO_EVENT";
+	/*
 	auto it = std::find_if(DICO.begin(), DICO.end(),
 		[](const std::pair<size_t, std::string> &element){
 			return element.first == to_find;
 		}
 	);
-	return it;
+	return it;*/
 }
 
 void    LNcurses::drawText(Text &text)
