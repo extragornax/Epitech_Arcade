@@ -122,6 +122,11 @@ void	LNcurses::drawScene(Scene &scene)
 	}
 }
 
+void	LNcurses::display()
+{
+	refresh();
+}
+
 std::string LNcurses::getKey()
 {
 	int ret = 0;

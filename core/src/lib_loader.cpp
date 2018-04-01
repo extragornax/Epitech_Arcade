@@ -16,8 +16,10 @@ Dlloader::Dlloader(std::string path)
 
 	_open = dlopen(_path.data(), RTLD_LAZY);
 	error = dlerror();
-	if (error)
+	if (error) {
+		std::cout << "ERROR " << error << std::endl;
 		throw new DLError("Error in loading " + _path + " lib", "LibLoader");
+	}
 }
 
 Dlloader::~Dlloader()
