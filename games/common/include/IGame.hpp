@@ -16,7 +16,7 @@ class   IGame
 public:
         // Dtor
         virtual ~IGame() = 0;
-	
+
         // Member functions
 	virtual Scene	&updateScene(std::string last) = 0;
 	virtual void	saveScore(std::string nickname) = 0;
@@ -24,5 +24,7 @@ public:
 	virtual bool	endGame() = 0;
 	virtual gameStatus	getStatus();
 };
+
+std::unique_ptr<IGame> createGame();
 
 #endif /* IGAME_HPP_ */

@@ -19,7 +19,7 @@
 
 extern "C"
 {
-	std::unique_ptr<ILib> createGame()
+	std::unique_ptr<ILib> createLib()
 	{
 		return std::make_unique<LNcurses> ();
 	}

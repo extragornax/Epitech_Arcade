@@ -15,11 +15,10 @@ class Dlloader {
 public:
 	Dlloader(std::string path);
 	~Dlloader();
-	void seLib(std::string path);
-	std::unique_ptr<T> getInstance(std::string entryPoint);
+	auto createLibSym();
+	auto createGameSym();
 private:
 	std::string _path;
-	void *_handler;
 	void *_open;
 };
 
