@@ -20,7 +20,7 @@ class Scene {
         Board &getBoardFooter();
         std::string &getTitle();
         std::clock_t &getClock();
-        size_t getScore();
+        size_t &getScore();
     
     private:
         Board _boardGame;
