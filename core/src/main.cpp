@@ -27,11 +27,15 @@ int	main(int ac, char **av)
 		std::cout << "CRASH: [" << str << "]\n";
 		throw e;
 	}
+
 	std::unique_ptr<ILib> lib_handler;
 	std::unique_ptr<IGame> game_handler;
+
 	try {
 		lib_handler = load_graph->createLibSym();
+		std::cout << "Passed Graphlib\n";
 		game_handler = load_game->createGameSym();
+		std::cout << "Passed Gamelib\n";
 	} catch (const GraphicalInitError *e) {
 		std::string str = e->what();
 		std::cout << "CRASH INIT: [" << str << "]\n";

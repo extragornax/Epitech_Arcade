@@ -39,6 +39,6 @@ std::unique_ptr<IGame> Dlloader::createGameSym()
 {
 	std::unique_ptr<IGame> (*createGame) ();
 
-	*(void **)(&createGame) = dlsym(_open, "createLib");
+	*(void **)(&createGame) = dlsym(_open, "createGame");
 	return createGame();
 }

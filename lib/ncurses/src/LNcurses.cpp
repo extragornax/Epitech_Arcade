@@ -21,7 +21,7 @@ extern "C"
 {
 	ILib *createLib()
 	{
-		return new LNcurses;
+		return new LNcurses();
 	}
 }
 
