@@ -11,8 +11,8 @@
 
 int	main(int ac, char **av)
 {
-	Dlloader	load_graph = new Dlloader("./lib/lib_arcade_ncurses.so");
-	Dlloader	load_game = new Dlloader("./game/lib_arcade_nibbler.so");
+	auto	load_graph = new Dlloader("./lib/lib_arcade_ncurses.so");
+        auto	load_game = new Dlloader("./game/lib_arcade_nibbler.so");
 	auto	lib_handler = load_graph.createLibSym();
 	auto	game_handler = load_game.createGameSym();
 
