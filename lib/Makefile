@@ -27,9 +27,9 @@ OBJSSFML	= $(SRCSSFML:.cpp=.o)
 
 CPPFLAGS = -I ./common/include -I ./ncurses/include -I ../common/include -I ./SFML/include
 
-CPPFLAGS += -W -Wall -Wextra # -fPIC
+CPPFLAGS += -W -Wall -Wextra -fPIC
 
-LDFLAGS	= # -shared
+LDFLAGS	= -shared
 
 
 all: $(NAMENCURSES) #$(NAMESFML)

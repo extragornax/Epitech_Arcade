@@ -18,10 +18,10 @@ SRCS	= ./core/src/lib_loader.cpp \
 OBJS	= $(SRCS:.cpp=.o)
 
 CPPFLAGS = -I core/include -I common/include -I games/common/include -I lib/common/include
-CPPFLAGS += -W -Wall -Wextra
+CPPFLAGS += -W -Wall -Wextra -fPIC
 
 all: $(NAME)
-	make -C lib
+	make all -C lib
 
 $(NAME): $(OBJS)
 	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS) -ldl
