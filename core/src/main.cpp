@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 	}
 	try {
 		load_graph = new Dlloader(av[1]);
-		load_game = new Dlloader("./game/lib_arcade_nibbler.so");
+		load_game = new Dlloader("./games/lib_arcade_nibbler.so");
 	} catch (const DLError *e) {
 		std::string str = e->what();
 		std::cout << "CRASH: [" << str << "]\n";

@@ -13,8 +13,8 @@
 #include <cstdlib>
 #include <list>
 #include "Define.hpp"
-#include "Nibbler.hpp"
 #include "IGame.hpp"
+#include "Nibbler.hpp"
 #include "Utils.hpp"
 
 extern "C"
@@ -36,7 +36,7 @@ Nibbler::Nibbler()
 
 Nibbler::~Nibbler()
 {
-
+	std::cout << "I'm destroying the Nibbler here" << std::endl;
 }
 
 void	Nibbler::_setBoard()

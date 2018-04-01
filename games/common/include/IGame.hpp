@@ -22,7 +22,7 @@ public:
 	virtual void	saveScore(std::string nickname) = 0;
 	virtual void	menuPause() = 0;
 	virtual bool	endGame() = 0;
-	virtual gameStatus	getStatus();
+	virtual gameStatus	getStatus() = 0;
 };
 
 #endif /* IGAME_HPP_ */

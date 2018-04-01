@@ -21,8 +21,7 @@ CPPFLAGS = -I ./common/include -I ./Nibbler/include -I ../common/include
 
 CPPFLAGS += -W -Wall -Wextra -Wfatal-errors -Werror -fpic
 
-LDFLAGS	= # -shared
-
+LDFLAGS	= -shared
 
 all: $(NAMENIBBLER)
 
