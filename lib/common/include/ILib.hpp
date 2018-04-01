@@ -27,4 +27,6 @@ public:
 	virtual void	display() = 0;
 };
 
+std::unique_ptr<ILib> createLib();
+
 #endif /* ILIB_HPP_ */
