@@ -11,7 +11,9 @@ CC	=	g++
 
 RM	=	rm -f
 
-SRCSNIBBLER	= ./Nibbler/src/Nibbler.cpp
+SRCSNIBBLER	= ./Nibbler/src/Nibbler.cpp	\
+			../common/src/Scene.cpp	\
+			../common/src/Board.cpp
 
 OBJSNIBBLER	= $(SRCSNIBBLER:.cpp=.o)
 
