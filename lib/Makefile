@@ -7,6 +7,8 @@
 
 NAMENCURSES	= lib_arcade_ncurses.so
 
+NAMESFML	= lib_arcade_sfml.so
+
 CC	=	g++
 
 RM	=	rm -f
@@ -15,23 +17,32 @@ SRCSNCURSES	= ./ncurses/src/LNcurses.cpp
 
 OBJSNCURSES	= $(SRCSNCURSES:.cpp=.o)
 
-CPPFLAGS = -I ./common/include -I ./ncurses/include -I ../common/include
+SRCSSFML	= ./SFML/src/Lsfml.cpp
+
+OBJSSFML	= $(SRCSSFML:.cpp=.o)
+
+CPPFLAGS = -I ./common/include -I ./ncurses/include -I ../common/include -I ./SFML/include
 
 CPPFLAGS += -W -Wall -Wextra -fPIC -lncurses
 
 LDFLAGS	= -shared
 
 
-all: $(NAMENCURSES)
+all: $(NAMENCURSES) $(NAMESFML)
 
 $(NAMENCURSES): $(OBJSNCURSES)
 	 $(CC) $(LDFLAGS) -o $(NAMENCURSES) $(OBJSNCURSES)
 
+$(NAMESFML): $(OBJSSFML)
+	$(CC) $(LDFLAGS) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -o $(NAMESFML) $(OBJSSFML)
+
 clean:
 	$(RM) $(OBJSNCURSES)
+	$(RM) $(OBJSSFML)
 
 fclean: clean
 	$(RM) $(NAMENCURSES)
+	$(RM) $(NAMESFML)
 
 re: fclean all
 
