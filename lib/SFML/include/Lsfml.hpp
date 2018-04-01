@@ -24,7 +24,7 @@ class Lsfml : public ILib {
 		void display();
 		void playSound(const std::string &path);
 		void stopSound(const std::string &path);
-		char getKey();
+		std::string getKey();
 
         private:
 		sf::RenderWindow _window;
