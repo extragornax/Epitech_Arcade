@@ -19,9 +19,9 @@
 
 extern "C"
 {
-	std::unique_ptr<IGame> createGame()
+        IGame *createGame()
 	{
-		return std::make_unique<Nibbler> ();
+		return new Nibbler;
 	}
 }
 
@@ -36,7 +36,6 @@ Nibbler::Nibbler()
 
 Nibbler::~Nibbler()
 {
-	std::cout << "I'm destroying the Nibbler here" << std::endl;
 }
 
 void	Nibbler::_setBoard()
