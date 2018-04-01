@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <memory>
+#include <dlfcn.h>
 #include "IGame.hpp"
 #include "ILib.hpp"
 

@@ -17,12 +17,12 @@ SRCS	= ./core/src/lib_loader.cpp \
 OBJS	= $(SRCS:.cpp=.o)
 
 CPPFLAGS = -I core/include -I common/include -I games/common/include -I lib/common/include
-CPPFLAGS += -W -Wall -Wextra -ldl
+CPPFLAGS += -W -Wall -Wextra
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
+	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS) -ldl
 
 clean:
 	$(RM) $(OBJS)
