@@ -14,7 +14,7 @@ class   ILib
 {
 public:
 	// Dtor
-	virtual ~ILib() = 0;
+	virtual ~ILib() {};
 
 	// Member functions
 	virtual void	clear() = 0;
@@ -27,7 +27,5 @@ public:
 	virtual void	display() = 0;
 	virtual std::string	getKey() = 0;
 };
-
-std::unique_ptr<ILib> createLib();
 
 #endif /* ILIB_HPP_ */

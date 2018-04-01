@@ -14,17 +14,15 @@
 class   IGame
 {
 public:
-        // Dtor
-        virtual ~IGame() = 0;
+	// Dtor
+	virtual ~IGame() {};
 
-        // Member functions
+	// Member functions
 	virtual Scene	&updateScene(std::string last) = 0;
 	virtual void	saveScore(std::string nickname) = 0;
 	virtual void	menuPause() = 0;
 	virtual bool	endGame() = 0;
 	virtual gameStatus	getStatus();
 };
-
-std::unique_ptr<IGame> createGame();
 
 #endif /* IGAME_HPP_ */

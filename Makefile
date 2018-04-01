@@ -21,15 +21,18 @@ CPPFLAGS = -I core/include -I common/include -I games/common/include -I lib/comm
 CPPFLAGS += -W -Wall -Wextra
 
 all: $(NAME)
+	make -C lib
 
 $(NAME): $(OBJS)
 	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS) -ldl
 
 clean:
 	$(RM) $(OBJS)
+	make clean -C lib
 
 fclean: clean
 	$(RM) $(NAME)
+	make fclean -C lib
 
 re: fclean all
 

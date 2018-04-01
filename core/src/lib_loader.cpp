@@ -14,8 +14,9 @@ Dlloader::Dlloader(std::string path)
 {
 	char *error = nullptr;
 
-	_open = dlopen(_path.c_str(), RTLD_LAZY);
-	if ((error = dlerror()) != NULL)
+	_open = dlopen(_path.data(), RTLD_LAZY);
+	error = dlerror();
+	if (error)
 		throw new DLError("Error in loading " + _path + " lib", "LibLoader");
 }
 

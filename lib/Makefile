@@ -13,7 +13,11 @@ CC	=	g++
 
 RM	=	rm -f
 
-SRCSNCURSES	= ./ncurses/src/LNcurses.cpp
+SRCSNCURSES	= ./ncurses/src/LNcurses.cpp	\
+		  ../common/src/Errors.cpp	\
+		  ../common/src/Board.cpp	\
+		  ../common/src/Scene.cpp
+
 
 OBJSNCURSES	= $(SRCSNCURSES:.cpp=.o)
 
@@ -23,15 +27,15 @@ OBJSSFML	= $(SRCSSFML:.cpp=.o)
 
 CPPFLAGS = -I ./common/include -I ./ncurses/include -I ../common/include -I ./SFML/include
 
-CPPFLAGS += -W -Wall -Wextra -fPIC -lncurses
+CPPFLAGS += -W -Wall -Wextra # -fPIC
 
-LDFLAGS	= -shared
+LDFLAGS	= # -shared
 
 
-all: $(NAMENCURSES) $(NAMESFML)
+all: $(NAMENCURSES) #$(NAMESFML)
 
 $(NAMENCURSES): $(OBJSNCURSES)
-	 $(CC) $(LDFLAGS) -o $(NAMENCURSES) $(OBJSNCURSES)
+	 $(CC) $(LDFLAGS) -o $(NAMENCURSES) $(OBJSNCURSES) -lncurses
 
 $(NAMESFML): $(OBJSSFML)
 	$(CC) $(LDFLAGS) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -o $(NAMESFML) $(OBJSSFML)
