@@ -9,7 +9,7 @@
 
 Scene::Scene() : _boardGame()
 {
-	
+
 }
 
 Scene::~Scene()
@@ -37,7 +37,7 @@ std::clock_t	&Scene::getClock()
 	return _clock;
 }
 
-size_t	&Scene::getScore()
+size_t	Scene::getScore()
 {
 	return _score;
 }
