@@ -10,6 +10,8 @@
 #include <curses.h>
 #include "ILib.hpp"
 
+#define ESCAPE_KEY 27
+
 class LNcurses : public ILib {
         public:
             LNcurses();
@@ -20,14 +22,14 @@ class LNcurses : public ILib {
             void drawButton(Button &button);
             void drawScene(Scene &scene);
             void display();
-            char getKey();
+            const auto getKey();
 
         private:
 			void _moveCursor(Position pos);
 			void _refreshScreen();
             void _print_text(std::string text);
             void _get_winSize();
-        
+
         private:
             char _getch;
             WINDOW *_window;

@@ -7,13 +7,24 @@
 
 #include <cstddef>
 #include <iostream>
+#include <algorithm>
 #include <string>
+#include <memory>
 #include <string.h>
 #include <curses.h>
 #include "Board.hpp"
 #include "Utils.hpp"
 #include "LNcurses.hpp"
 #include "Errors.hpp"
+
+extern "C"
+{
+	std::unique_ptr<ILib> createGame()
+	{
+		return std::make_unique<LNcurses> ();
+	}
+}
+
 
 LNcurses::LNcurses()
 	: _window(nullptr),
@@ -100,13 +111,57 @@ void	LNcurses::drawScene(Scene &scene)
 	}
 }
 
-char	LNcurses::getKey()
+const auto	LNcurses::getKey()
 {
-	char ret;
+	int ret = 0;
+	size_t to_find = 0;
 
 	if ((ret = getch()) == ERR)
 		throw new GraphicalInLibError("Error in retrieving user input key\n", "Ncurses");
-	return ret;
+	switch (ret) {
+		case KEY_LEFT:
+			to_find = 1;
+			break;
+		case KEY_RIGHT:
+			to_find = 2;
+			break;
+		case KEY_UP:
+			to_find = 3;
+			break;
+		case KEY_DOWN:
+			to_find = 4;
+			break;
+		case 'P':
+			to_find = 5;
+			break;
+		case ESCAPE_KEY:
+			to_find = 6;
+			break;
+		case KEY_BACKSPACE:
+			to_find = 7;
+			break;
+		case 'R':
+			to_find = 8;
+			break;
+		case KEY_HOME:
+			to_find = 9;
+			break;
+		case KEY_END:
+			to_find = 10;
+			break;
+		case KEY_NPAGE:
+			to_find = 11;
+			break;
+		case KEY_PPAGE:
+			to_find = 12;
+			break;
+	}
+	auto it = std::find_if(DICO.begin(), DICO.end(),
+		[](const std::pair<size_t, std::string> &element){
+			return element.first == to_find;
+		}
+	);
+	return it;
 }
 
 void    LNcurses::drawText(Text &text)

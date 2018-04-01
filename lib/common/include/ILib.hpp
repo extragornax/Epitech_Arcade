@@ -19,7 +19,7 @@ public:
 	// Member functions
 	virtual void	clear() = 0;
 	virtual void	playSound(const std::string &path) = 0;
-	virtual void	stopSoud(const std::string &path) = 0;
+	virtual void	stopSound(const std::string &path) = 0;
 	virtual void	drawText(Text &text) = 0;
 	virtual void	drawDisp(Disp &disp) = 0;
 	virtual void	drawButton(Button &button) = 0;
