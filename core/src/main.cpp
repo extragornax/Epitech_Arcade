@@ -27,14 +27,25 @@ int	main(int ac, char **av)
 		std::cout << "CRASH: [" << str << "]\n";
 		throw e;
 	}
-		std::unique_ptr<ILib> lib_handler = load_graph->createLibSym();
-		std::unique_ptr<IGame> game_handler = load_game->createGameSym();
+	std::unique_ptr<ILib> lib_handler;
+	std::unique_ptr<IGame> game_handler;
+	try {
+		lib_handler = load_graph->createLibSym();
+		game_handler = load_game->createGameSym();
+	} catch (const GraphicalInitError *e) {
+		std::string str = e->what();
+		std::cout << "CRASH INIT: [" << str << "]\n";
+	}
 
-		(void) ac;
-		(void) av;
+	try {
 		while (game_handler->endGame() == false) {
 			lib_handler->drawScene(game_handler->updateScene(lib_handler->getKey()));
 			lib_handler->display();
 		}
+	} catch (const std::exception *e) {
+		std::string str = e->what();
+		std::cout << "CRASH: [" << str << "]\n";
+		//throw e;
+	}
 	return 0;
 }

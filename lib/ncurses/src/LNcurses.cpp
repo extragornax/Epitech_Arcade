@@ -19,9 +19,9 @@
 
 extern "C"
 {
-	std::unique_ptr<ILib> createLib()
+	ILib *createLib()
 	{
-		return std::make_unique<LNcurses> ();
+		return new LNcurses;
 	}
 }
 
@@ -30,11 +30,16 @@ LNcurses::LNcurses()
 	: _window(nullptr),
 	_start_game(std::make_pair(0, 0))
 {
-	if ((_window = initscr()) == nullptr
-	|| (raw() == ERR)
-	|| (noecho()) == ERR
-	|| (keypad(stdscr, 1)) == ERR)
-		throw new GraphicalInitError("Error in Ncurses init\n");
+	if ((_window = initscr()) == nullptr)
+		throw new GraphicalInitError("Error in screen init\n", "Ncurses");
+	/*
+	if (raw() == ERR)
+		throw new GraphicalInitError("Error in raw init\n", "Ncurses");
+	*/
+	if (noecho() == ERR)
+		throw new GraphicalInitError("Error in noecho init\n", "Ncurses");
+	if (keypad(stdscr, 1) == ERR)
+		throw new GraphicalInitError("Error in keypad init\n", "Ncurses");
 	_get_winSize();
 }
 
