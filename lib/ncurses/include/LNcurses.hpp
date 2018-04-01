@@ -17,6 +17,8 @@ class LNcurses : public ILib {
             LNcurses();
             ~LNcurses();
             void clear();
+            void playSound(const std::string &path);
+	        void stopSound(const std::string &path);
             void drawText(Text &text);
             void drawDisp(Disp &disp);
             void drawButton(Button &button);

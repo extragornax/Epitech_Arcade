@@ -58,6 +58,17 @@ void	LNcurses::clear()
 		throw new GraphicalInLibError("Error in screen clear\n", "Ncurses");
 }
 
+
+void	LNcurses::playSound(const std::string &path)
+{
+	(void) path;
+}
+
+void	LNcurses::stopSound(const std::string &path)
+{
+	(void) path;
+}
+
 void	LNcurses::drawDisp(Disp &disp)
 {
 	try {
