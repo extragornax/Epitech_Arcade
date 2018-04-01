@@ -24,7 +24,7 @@ class LNcurses : public ILib {
             void drawButton(Button &button);
             void drawScene(Scene &scene);
             void display();
-	std::string getKey();
+            std::string getKey();
 
         private:
 	void _moveCursor(Position pos);

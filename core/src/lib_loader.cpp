@@ -29,7 +29,7 @@ std::unique_ptr<ILib> Dlloader::createLibSym()
 	std::unique_ptr<ILib> createLib();
 
 	*(void **)(&createLib) = dlsym(_open, "createLib");
-	return createLib;
+	return createLib();
 }
 
 std::unique_ptr<IGame> Dlloader::createGameSym()
@@ -37,5 +37,5 @@ std::unique_ptr<IGame> Dlloader::createGameSym()
 	std::unique_ptr<IGame> createGame();
 
 	*(void **)(&createGame) = dlsym(_open, "createLib");
-	return createLib;
+	return createGame();
 }

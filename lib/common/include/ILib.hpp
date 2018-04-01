@@ -25,6 +25,7 @@ public:
 	virtual void	drawButton(Button &button) = 0;
 	virtual void	drawScene(Scene &scene) = 0;
 	virtual void	display() = 0;
+	virtual std::string	getKey() = 0;
 };
 
 std::unique_ptr<ILib> createLib();

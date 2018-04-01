@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	(void) ac;
 	(void) av;
 	while (game_handler->endGame() == false) {
-		lib_handler->drawScene(game_handler.updateScene(lib_handler.getKey()));
+		lib_handler->drawScene(game_handler->updateScene(lib_handler->getKey()));
 		lib_handler->display();
 	}
 	return 0;
