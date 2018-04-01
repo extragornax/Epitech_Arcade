@@ -1,0 +1,26 @@
+//
+// EPITECH PROJECT, 2018
+// cpp_arcade
+// File description:
+// main.cpp
+//
+
+#include "lib_open.hpp"
+#include "IGame.hpp"
+#include "ILib.hpp"
+
+int	main(int ac, char **av)
+{
+	Dlloader	load_graph = new Dlloader("./lib/lib_arcade_ncurses.so");
+	Dlloader	load_game = new Dlloader("./game/lib_arcade_nibbler.so");
+	auto	lib_handler = load_graph.createLibSym();
+	auto	game_handler = load_game.createGameSym();
+
+	(void) ac;
+	(void) av;
+	while (lib_game.endGame() == false) {
+		lib_handler.drawScene(game_handler.updateScene(lib_handler.getKey()));
+		lib_handler.draw();
+	}
+	return 0;
+}

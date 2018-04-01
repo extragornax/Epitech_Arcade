@@ -86,15 +86,15 @@ void	Nibbler::_updateBoard(Board &board, std::string event)
 	long unsigned int i2 = std::get<0> (_snake.back());
 	long unsigned int j2 = std::get<1> (_snake.back());
 
-	if (event == "KeyRight") {
+	if (event == "RIGHT") {
 		_moveSideway(board, i, j, i2, j2, 1);
-	} else if (event == "KeyLeft") {
+	} else if (event == "LEFT") {
 		_moveSideway(board, i, j, i2, j2, -1);
-	} else if (event == "KeyUp") {
+	} else if (event == "UP") {
 		_moveVertical(board, i, j, i2, j2, -1);
-	} else if (event == "KeyDown") {
+	} else if (event == "DOWN") {
 		_moveVertical(board, i, j, i2, j2, 1);
-	} else if (event == "") {
+	} else if (event == "NO_EVENT") {
 		if (board.getDirection(_snake.front()) == WEST || board.getDirection(_snake.front()) == EAST) {
 			_moveSideway(board, i, j, i2, j2, (board.getDirection(_snake.front()) == WEST) ? 1 : -1);
 		} else {
