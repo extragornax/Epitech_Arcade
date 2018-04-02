@@ -32,7 +32,6 @@ Nibbler::Nibbler()
 	_endgame = false;
 	_score = 0;
 	_gameStatus = INGAME;
-	std::cout << "I'm done constructing Nibbler !" << std::endl;
 }
 
 Nibbler::~Nibbler()
@@ -49,7 +48,6 @@ void	Nibbler::_setBoard()
 	if (fs.is_open()) {
 		for (int i = 0; i < 20; i++) {
 			std::getline(fs, line);
-			std::cout << "str number " << i << " here : " << line << std::endl;
 			for (int j = 0; j < 20; j++) {
 				if (line[j] == '1') {
 					sprites.push_back(WALL_SPRITE);
@@ -79,7 +77,6 @@ void	Nibbler::_setBoard()
 
 Scene	&Nibbler::updateScene(std::string event)
 {
-	std::cout << "Good redirection to corresponding function calls" << std::endl;
 	_updateBoard(_nibblerScene.getBoardGame(), event);
 	return (_nibblerScene);
 }
@@ -92,13 +89,13 @@ void	Nibbler::_updateBoard(Board &board, std::string event)
 	long unsigned int j2 = std::get<1> (_snake.back());
 
 	if (event == "RIGHT") {
-		_moveSideway(board, i, j, i2, j2, 1);
-	} else if (event == "LEFT") {
-		_moveSideway(board, i, j, i2, j2, -1);
-	} else if (event == "UP") {
-		_moveVertical(board, i, j, i2, j2, -1);
-	} else if (event == "DOWN") {
 		_moveVertical(board, i, j, i2, j2, 1);
+	} else if (event == "LEFT") {
+		_moveVertical(board, i, j, i2, j2, -1);
+	} else if (event == "UP") {
+		_moveSideway(board, i, j, i2, j2, 1);
+	} else if (event == "DOWN") {
+		_moveSideway(board, i, j, i2, j2, -1);
 	} else if (event == "NO_EVENT") {
 		if (board.getDirection(_snake.front()) == WEST || board.getDirection(_snake.front()) == EAST) {
 			_moveSideway(board, i, j, i2, j2, (board.getDirection(_snake.front()) == WEST) ? 1 : -1);
@@ -229,12 +226,10 @@ void	Nibbler::menuPause()
 {
 	//pauses the game (popup?)
 	_gameStatus = PAUSE;
-	std::cout << "I got through the menuPause call" << std::endl;
 }
 
 bool	Nibbler::endGame()
 {
-	std::cout << "I'm in endgame" << std::endl;
 	return _endgame;
 }
 

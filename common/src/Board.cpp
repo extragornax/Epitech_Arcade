@@ -21,13 +21,11 @@ Board::Board()
 
 void Board::Tile::setSprites(const std::vector<std::string> sprites)
 {
-	std::cout << "checking the content of <sprites> : " << sprites[0] << std::endl;
 	_sprites = sprites;
 }
 
 void Board::Tile::setCharacters(const std::vector<char> characteres)
 {
-	std::cout << "checking the content of <chars> : " << characteres[0] << std::endl;
 	_characteres = characteres;
 }
 
@@ -84,9 +82,7 @@ Direction Board::getDirection(const Position &pos) const
 void Board::createTile(const Position &pos, const std::vector<std::string> sprites,
 			const std::vector<char> characters, const Direction direction)
 {
-	std::cout << "Creating tile at " << pos.first << ":" << pos.second << std::endl;
 	_board[pos.first][pos.second].setSprites(sprites);
 	_board[pos.first][pos.second].setCharacters(characters);
 	_board[pos.first][pos.second].setDirection(direction);
-	std::cout << "Done creating tile !" << std::endl;
 }
