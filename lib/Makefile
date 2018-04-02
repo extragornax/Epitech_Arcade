@@ -32,16 +32,16 @@ CPPFLAGS = -I ./common/include -I ./ncurses/include -I ../common/include -I ./SF
 
 CPPFLAGS += -W -Wall -Wextra -fPIC
 
-LDFLAGS	= -shared
+LDFLAGS	= #-shared
 
 
-all: $(NAMENCURSES) #$(NAMESFML)
+all: $(NAMESFML) $(NAMENCURSES)
 
 $(NAMENCURSES): $(OBJSNCURSES)
 	 $(CC) $(LDFLAGS) -o $(NAMENCURSES) $(OBJSNCURSES) -lncurses
 
 $(NAMESFML): $(OBJSSFML)
-	$(CC) $(LDFLAGS) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -o $(NAMESFML) $(OBJSSFML)
+	$(CC) $(OBJSSFML) -o $(NAMESFML) $(LDFLAGS) -lsfml-system -lsfml-window -lsfml-network -lsfml-graphics -lsfml-audio
 
 clean:
 	$(RM) $(OBJSNCURSES)
