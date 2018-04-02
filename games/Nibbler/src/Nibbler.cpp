@@ -32,6 +32,7 @@ Nibbler::Nibbler()
 	_endgame = false;
 	_score = 0;
 	_gameStatus = INGAME;
+	_spawnFood();
 }
 
 Nibbler::~Nibbler()
@@ -93,9 +94,9 @@ void	Nibbler::_updateBoard(Board &board, std::string event)
 	} else if (event == "LEFT") {
 		_moveVertical(board, i, j, i2, j2, -1);
 	} else if (event == "UP") {
-		_moveSideway(board, i, j, i2, j2, 1);
-	} else if (event == "DOWN") {
 		_moveSideway(board, i, j, i2, j2, -1);
+	} else if (event == "DOWN") {
+		_moveSideway(board, i, j, i2, j2, 1);
 	} else if (event == "NO_EVENT") {
 		if (board.getDirection(_snake.front()) == WEST || board.getDirection(_snake.front()) == EAST) {
 			_moveSideway(board, i, j, i2, j2, (board.getDirection(_snake.front()) == WEST) ? 1 : -1);
@@ -188,6 +189,7 @@ void	Nibbler::_moveSideway(Board &board, long unsigned int i, long unsigned int 
 		board.setCharacters(pos_first, chars);
 		board.setSprites(pos_first, sprites);
 		board.setDirection(pos_first, direction);
+		_spawnFood();
 	} else if (i + incr < 20 && pos_second == std::make_pair(i + incr, j)) {
 		// Means you're trying to go backwards, which you can't do in snake, so just does nothing.
 		;
@@ -206,7 +208,8 @@ void	Nibbler::_spawnFood()
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
 
-	while (_nibblerScene.getBoardGame().getCharacters(std::make_pair(i, j))[0] != BACKGROUND_CHAR) {
+	while (_nibblerScene.getBoardGame().getCharacters(std::make_pair(i, j))[0] != BACKGROUND_CHAR
+	&& _nibblerScene.getBoardGame().getCharacters(std::make_pair(i, j))[0] != SNAKE_BODY_CHAR) {
 		i = rand() % 20;
 		j = rand() % 20;
 	}

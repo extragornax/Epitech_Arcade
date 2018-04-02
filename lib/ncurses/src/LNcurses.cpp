@@ -32,12 +32,16 @@ LNcurses::LNcurses()
 {
 	if ((_window = initscr()) == nullptr)
 		throw new GraphicalInitError("Error in screen init\n", "Ncurses");
-	if (raw() == ERR)
+	if (cbreak() == ERR)
 		throw new GraphicalInitError("Error in raw init\n", "Ncurses");
 	if (noecho() == ERR)
 		throw new GraphicalInitError("Error in noecho init\n", "Ncurses");
 	if (keypad(stdscr, 1) == ERR)
 		throw new GraphicalInitError("Error in keypad init\n", "Ncurses");
+	if (nodelay(stdscr, TRUE) == ERR)
+		throw new GraphicalInitError("Error in nodelay init\n", "Ncurses");
+	if (curs_set(0) == ERR)
+		throw new GraphicalInitError("Error in curs_set init\n", "Ncurses");
 	_get_winSize();
 }
 
@@ -46,7 +50,7 @@ LNcurses::LNcurses()
 **
 **	if ((endwin()) == ERR)
 **		throw new GraphicalCleanupError("Error on Ncurses exit\n");
- */
+*/
 
 LNcurses::~LNcurses()
 {
@@ -110,8 +114,8 @@ void	LNcurses::drawScene(Scene &scene)
 		int y = 1;
 
 		mvprintw(x, y, "%s", _title.c_str());
-		x = std::get<0> (_screen_size) / 2 - 10;
-		y = std::get<1> (_screen_size) / 2 - 10;
+		y = std::get<0> (_screen_size) / 2 - 10;
+		x = std::get<1> (_screen_size) / 2 - 10;
 		_start_game = std::make_pair(x, y);
 		_moveCursor(_start_game);
 		for (int i = 0; i < 20; i++) {
@@ -136,7 +140,7 @@ std::string LNcurses::getKey()
 	size_t to_find = 0;
 
 	if ((ret = getch()) == ERR)
-		throw new GraphicalInLibError("Error in retrieving user input key\n", "Ncurses");
+		return "NO_EVENT";
 	switch (ret) {
 		case KEY_LEFT:
 			to_find = 1;
