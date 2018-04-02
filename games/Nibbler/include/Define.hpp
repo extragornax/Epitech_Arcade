@@ -18,9 +18,9 @@
 
 
 // Defines for sprites to use in graphical libs
-# define WALL_SPRITE	"wall"
-# define SNAKE_BODY_SPRITE	"snake"
-# define BACKGROUND_SPRITE	"background"
-# define FOOD_SPRITE	"food"
+# define WALL_SPRITE	"/home/ragnar/Delivery/OOP/cpp_arcade/games/Nibbler/misc/sprites/walls.png"
+# define SNAKE_BODY_SPRITE	"/home/ragnar/Delivery/OOP/cpp_arcade/games/Nibbler/misc/sprites/snake.png"
+# define BACKGROUND_SPRITE	"/home/ragnar/Delivery/OOP/cpp_arcade/games/Nibbler/misc/sprites/background.jpg"
+# define FOOD_SPRITE	"/home/ragnar/Delivery/OOP/cpp_arcade/games/Nibbler/misc/sprites/food.png"
 
 #endif /* DEFINE_HPP_ */

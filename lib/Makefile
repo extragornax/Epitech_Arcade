@@ -32,7 +32,7 @@ CPPFLAGS = -I ./common/include -I ./ncurses/include -I ../common/include -I ./SF
 
 CPPFLAGS += -W -Wall -Wextra -fPIC
 
-LDFLAGS	= #-shared
+LDFLAGS	= -shared
 
 
 all: $(NAMESFML) $(NAMENCURSES)

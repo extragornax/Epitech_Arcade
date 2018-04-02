@@ -207,6 +207,7 @@ void    Lsfml::drawText(Text &text)
 
 void	Lsfml::drawScene(Scene &scene)
 {
+	clear();
 	std::string title = scene.getTitle();
 	sf::Vector2u size = _window.getSize();
 
@@ -227,14 +228,14 @@ void	Lsfml::drawScene(Scene &scene)
 		throw new GraphicalInLibError(str, "SFML");
 		}*/
 
-		sf::Texture texture;
-		sf::Sprite toDraw;
+	sf::Texture texture;
+	sf::Sprite toDraw;
 
 	for (int i = 0; i < 20; i++) {
-		for (int j = 0; i < 20; j++) {
+		for (int j = 0; j < 20; j++) {
 			try  {
 				if (texture.loadFromFile(scene.getBoardGame().getSprites(std::make_pair(i, j)).at(0)) == false)
-				throw std::string("loadFromFile: couldn't load texture\n");
+					throw std::string("loadFromFile: couldn't load texture\n");
 			else {
 				toDraw.setTexture(texture);
 				toDraw.setPosition((float) j * size.x, (float)i * size.y);
@@ -256,12 +257,12 @@ void	Lsfml::drawScene(Scene &scene)
 			} catch (std::string const &str) {
 				throw new GraphicalInLibError(str, "SFML");
 			}
-			
+			_window.draw(toDraw);
 		}
-	}	
+	}
 }
 
 void Lsfml::display()
 {
-	return ;
+	_window.display();
 }
