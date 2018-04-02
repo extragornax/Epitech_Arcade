@@ -23,7 +23,8 @@ OBJSNCURSES	= $(SRCSNCURSES:.cpp=.o)
 
 SRCSSFML	= ./SFML/src/Lsfml.cpp		\
 		  ../common/src/Board.cpp	\
-		  ../common/src/Scene.cpp
+		  ../common/src/Scene.cpp	\
+		  ../common/src/Errors.cpp
 
 OBJSSFML	= $(SRCSSFML:.cpp=.o)
 
