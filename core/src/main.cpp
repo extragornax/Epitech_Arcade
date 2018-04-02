@@ -47,6 +47,8 @@ int	main(int ac, char **av)
 	} catch (const std::exception *e) {
 		std::string str = e->what();
 		std::cout << "CRASH: [" << str << "]\n";
+		delete lib_handler;
+		delete game_handler;
 		//throw e;
 	}
 	return 0;
