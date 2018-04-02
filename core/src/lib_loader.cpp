@@ -27,17 +27,17 @@ Dlloader::~Dlloader()
 	dlclose(_open);
 }
 
-std::unique_ptr<ILib> Dlloader::createLibSym()
+ILib *Dlloader::createLibSym()
 {
-	std::unique_ptr<ILib> (*createLib) ();
+	ILib *(*createLib) ();
 
 	*(void **)(&createLib) = dlsym(_open, "createLib");
 	return createLib();
 }
 
-std::unique_ptr<IGame> Dlloader::createGameSym()
+IGame *Dlloader::createGameSym()
 {
-	std::unique_ptr<IGame> (*createGame) ();
+        IGame *(*createGame) ();
 
 	*(void **)(&createGame) = dlsym(_open, "createGame");
 	return createGame();
