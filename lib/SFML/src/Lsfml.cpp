@@ -17,6 +17,14 @@
 #include "Lsfml.hpp"
 #include "Errors.hpp"
 
+extern "C"
+{
+	ILib *createLib()
+	{
+		return new Lsfml();
+	}
+}
+
 Lsfml::Lsfml()
 	: _window(sf::VideoMode(800, 600), "Arcade"), _buffer(), _sound()
 {
@@ -250,7 +258,10 @@ void	Lsfml::drawScene(Scene &scene)
 			}
 			
 		}
-	}
+	}	
+}
 
-	
+void Lsfml::display()
+{
+	return ;
 }
