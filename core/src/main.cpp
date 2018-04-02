@@ -28,10 +28,10 @@ int	main(int ac, char **av)
 		std::cout << "CRASH: [" << str << "]\n";
 		throw e;
 	}
-	std::unique_ptr<ILib> lib_handler;
-	std::unique_ptr<IGame> game_handler;
+	ILib *lib_handler;
+	IGame *game_handler;
 	try {
-//		lib_handler = load_graph->createLibSym();
+		lib_handler = load_graph->createLibSym();
 		game_handler = load_game->createGameSym();
 	} catch (const GraphicalInitError *e) {
 		std::string str = e->what();
@@ -39,15 +39,10 @@ int	main(int ac, char **av)
 	}
 
 	try {
-		std::cout << "I am in the try block" << std::endl;
-		game_handler->menuPause();
-		std::cout << "I am in the try block" << std::endl;
 		while (game_handler->endGame() == false) {
-			std::cout << "Am i even here ?" << std::endl;
-			game_handler->updateScene("NO_EVENT");
-//			lib_handler->drawScene(game_handler->updateScene(lib_handler->getKey()));
-//			lib_handler->display();
-			usleep(50000);
+			lib_handler->drawScene(game_handler->updateScene(lib_handler->getKey()));
+			lib_handler->display();
+			usleep(500000);
 		}
 	} catch (const std::exception *e) {
 		std::string str = e->what();
