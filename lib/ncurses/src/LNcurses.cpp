@@ -32,8 +32,10 @@ LNcurses::LNcurses()
 {
 	if ((_window = initscr()) == nullptr)
 		throw new GraphicalInitError("Error in screen init\n", "Ncurses");
+		/*
 	if (raw() == ERR)
 		throw new GraphicalInitError("Error in raw init\n", "Ncurses");
+		*/
 	if (noecho() == ERR)
 		throw new GraphicalInitError("Error in noecho init\n", "Ncurses");
 	if (keypad(stdscr, 1) == ERR)
@@ -78,6 +80,7 @@ void	LNcurses::drawDisp(Disp &disp)
 		Position st = std::make_pair((size_t) std::get<0> (disp.position),
 		(size_t) std::get<1> (disp.position));
 
+		std::cout << "drawDisp Moving to " << st.first << " " << st.second << std::endl;
 		_moveCursor(st);
 		printw("%c", disp.character);
 	} catch (const GraphicalInLibError &e) {
@@ -92,6 +95,7 @@ void	LNcurses::drawButton(Button &button)
 		Position st = std::make_pair((size_t) std::get<0> (button.pos),
 		(size_t) std::get<1> (button.pos));
 
+		std::cout << "drawButton Moving to " << st.first << " " << st.second << std::endl;
 		_moveCursor(st);
 		printw("%s", button.text.c_str());
 	} catch (const GraphicalInLibError &e) {
@@ -104,19 +108,29 @@ void	LNcurses::drawScene(Scene &scene)
 {
 	try {
 		_get_winSize();
-
+		int x = 0;
+		int y = 0;
+		/*
 		std::string _title = scene.getTitle();
 		int x = (std::get<0> (_screen_size) / 2) - (_title.length() / 2);
 		int y = 1;
 
+		std::cout << "FIRST PART title len " << _title.length() << "title " << _title << std::endl <<
+		x << " " << y << std::endl;
+
 		mvprintw(x, y, "%s", _title.c_str());
-		x = std::get<0> (_screen_size) / 2 - 10;
-		y = std::get<1> (_screen_size) / 2 - 10;
+		*/
+	std::cout << "get screen size" << std::endl;
+		x = _screen_size.first / 2 - 10;
+		y = _screen_size.second / 2 - 10;
+	std::cout << "got screen size " << _screen_size.first << " " << _screen_size.second << " translate " << x << " " << y << std::endl;
+
 		_start_game = std::make_pair(x, y);
-		_moveCursor(_start_game);
+		std::cout << "pair made" << std::endl;
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
-				mvprintw(i + x, j + y, "%c", scene.getBoardGame().getCharacters(std::make_pair(i, j)).at(0));
+				std::cout << "at " << i << " " << y << std::endl;
+				mvprintw(i + _start_game.first, j + _start_game.second, "%c", scene.getBoardGame().getCharacters(std::make_pair(i, j))[0]);
 			}
 		}
 	} catch (const GraphicalInLibError &e) {
@@ -192,6 +206,7 @@ std::string LNcurses::getKey()
 
 void    LNcurses::drawText(Text &text)
 {
+	std::cout << "drawText Moving to " << text.pos.first << " " << text.pos.second << std::endl;
 	_moveCursor(text.pos);
 	_print_text(text.text);
 	_refreshScreen();
@@ -199,8 +214,11 @@ void    LNcurses::drawText(Text &text)
 
 void    LNcurses::_moveCursor(Position pos)
 {
-	if ((move((int) std::get<0> (pos), (int) std::get<1> (pos))) == ERR)
+	std::cout << "Moving to " << pos.first << " " << pos.second << std::endl;
+
+	if ((move((int) std::get<0> (pos), (int) std::get<1> (pos))) == ERR) {
 		throw new GraphicalInLibError("Error in moving the pointer to print\n", "Ncurses");
+	}
 }
 
 void    LNcurses::_refreshScreen()
