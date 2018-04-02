@@ -21,7 +21,9 @@ SRCSNCURSES	= ./ncurses/src/LNcurses.cpp	\
 
 OBJSNCURSES	= $(SRCSNCURSES:.cpp=.o)
 
-SRCSSFML	= ./SFML/src/Lsfml.cpp
+SRCSSFML	= ./SFML/src/Lsfml.cpp		\
+		  ../common/src/Board.cpp	\
+		  ../common/src/Scene.cpp
 
 OBJSSFML	= $(SRCSSFML:.cpp=.o)
 
