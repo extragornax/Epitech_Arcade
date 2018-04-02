@@ -8,7 +8,7 @@
 #ifndef DEFINE_HPP_
 # define DEFINE_HPP_
 
-# define NIBBLER_CONF	"misc/nibbler_conf.txt"
+# define NIBBLER_CONF	"/home/ragnar/Delivery/OOP/cpp_arcade/games/Nibbler/misc/nibbler_conf.txt"
 
 // Defines for chars to use in terminal graphical libs
 # define WALL_CHAR	'#'
@@ -18,9 +18,9 @@
 
 
 // Defines for sprites to use in graphical libs
-# define WALL_SPRITE	""
-# define SNAKE_BODY_SPRITE	""
-# define BACKGROUND_SPRITE	""
-# define FOOD_SPRITE	""
+# define WALL_SPRITE	"wall"
+# define SNAKE_BODY_SPRITE	"snake"
+# define BACKGROUND_SPRITE	"background"
+# define FOOD_SPRITE	"food"
 
 #endif /* DEFINE_HPP_ */

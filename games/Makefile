@@ -7,7 +7,7 @@
 
 NAMENIBBLER	= lib_arcade_nibbler.so
 
-CC	=	g++
+CC	=	g++ -g3
 
 RM	=	rm -f
 

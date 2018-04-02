@@ -32,6 +32,7 @@ Nibbler::Nibbler()
 	_endgame = false;
 	_score = 0;
 	_gameStatus = INGAME;
+	std::cout << "I'm done constructing Nibbler !" << std::endl;
 }
 
 Nibbler::~Nibbler()
@@ -40,33 +41,37 @@ Nibbler::~Nibbler()
 
 void	Nibbler::_setBoard()
 {
-	std::fstream fs;
-	char str[20];
+	std::ifstream fs(NIBBLER_CONF);
+	std::string line;
+	std::vector<std::string> sprites;
+	std::vector<char> chars;
 
-	fs.open(NIBBLER_CONF, std::ios_base::in);
-	for (int i = 0; i < 20; i++) {
-		fs.getline(str, 20);
-		for (int j = 0; j < 20; j++) {
-			std::vector<std::string> sprites;
-			std::vector<char> chars;
-			if (str[j] == '1') {
-				sprites.push_back(WALL_SPRITE);
-				chars.push_back(WALL_CHAR);
-				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
-			} else if (str[j] == '3') {
-				_snake.push_front(std::make_pair(i, j));
-				sprites.push_back(SNAKE_BODY_SPRITE);
-				chars.push_back(SNAKE_BODY_CHAR);
-				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
-			} else if (str[j] == '2') {
-				_snake.push_back(std::make_pair(i, j));
-				sprites.push_back(SNAKE_BODY_SPRITE);
-				chars.push_back(SNAKE_BODY_CHAR);
-				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
-			} else {
-				sprites.push_back(BACKGROUND_SPRITE);
-				chars.push_back(BACKGROUND_CHAR);
-				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+	if (fs.is_open()) {
+		for (int i = 0; i < 20; i++) {
+			std::getline(fs, line);
+			std::cout << "str number " << i << " here : " << line << std::endl;
+			for (int j = 0; j < 20; j++) {
+				if (line[j] == '1') {
+					sprites.push_back(WALL_SPRITE);
+					chars.push_back(WALL_CHAR);
+					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				} else if (line[j] == '3') {
+					_snake.push_front(std::make_pair(i, j));
+					sprites.push_back(SNAKE_BODY_SPRITE);
+					chars.push_back(SNAKE_BODY_CHAR);
+					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				} else if (line[j] == '2') {
+					_snake.push_back(std::make_pair(i, j));
+					sprites.push_back(SNAKE_BODY_SPRITE);
+					chars.push_back(SNAKE_BODY_CHAR);
+					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				} else {
+					sprites.push_back(BACKGROUND_SPRITE);
+					chars.push_back(BACKGROUND_CHAR);
+					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+				}
+				chars.clear();
+				sprites.clear();
 			}
 		}
 	}
@@ -74,6 +79,7 @@ void	Nibbler::_setBoard()
 
 Scene	&Nibbler::updateScene(std::string event)
 {
+	std::cout << "Good redirection to corresponding function calls" << std::endl;
 	_updateBoard(_nibblerScene.getBoardGame(), event);
 	return (_nibblerScene);
 }
@@ -97,7 +103,7 @@ void	Nibbler::_updateBoard(Board &board, std::string event)
 		if (board.getDirection(_snake.front()) == WEST || board.getDirection(_snake.front()) == EAST) {
 			_moveSideway(board, i, j, i2, j2, (board.getDirection(_snake.front()) == WEST) ? 1 : -1);
 		} else {
-			_moveSideway(board, i, j, i2, j2, (board.getDirection(_snake.front()) == SOUTH) ? 1 : -1);
+			_moveVertical(board, i, j, i2, j2, (board.getDirection(_snake.front()) == SOUTH) ? 1 : -1);
 		}
 	}
 }
@@ -223,10 +229,12 @@ void	Nibbler::menuPause()
 {
 	//pauses the game (popup?)
 	_gameStatus = PAUSE;
+	std::cout << "I got through the menuPause call" << std::endl;
 }
 
 bool	Nibbler::endGame()
 {
+	std::cout << "I'm in endgame" << std::endl;
 	return _endgame;
 }
 

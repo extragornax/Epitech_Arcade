@@ -9,11 +9,12 @@
 
 #include <vector>
 #include <string>
+#include <array>
 #include "Utils.hpp"
 
 class Board {
 public:
-	Board() = default;
+	Board();// = default;
 	~Board() = default;
 
 public:
@@ -53,5 +54,5 @@ public:
 			const std::vector<char>, const Direction);
 
 private:
-	Board::Tile _board[HEIGHT_BOARD][WIDTH_BOARD];
+	std::vector<std::vector<Board::Tile>> _board;
 };

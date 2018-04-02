@@ -72,5 +72,5 @@ struct Disp {
 	Position position;
 };
 
-static const size_t HEIGHT_BOARD = 5;
-static const size_t WIDTH_BOARD = 5;
+static const size_t HEIGHT_BOARD = 20;
+static const size_t WIDTH_BOARD = 20;

@@ -5,6 +5,7 @@
 // main.cpp
 //
 
+#include <unistd.h>
 #include "Errors.hpp"
 #include "lib_open.hpp"
 #include "IGame.hpp"
@@ -27,24 +28,26 @@ int	main(int ac, char **av)
 		std::cout << "CRASH: [" << str << "]\n";
 		throw e;
 	}
-
 	std::unique_ptr<ILib> lib_handler;
 	std::unique_ptr<IGame> game_handler;
-
 	try {
-		lib_handler = load_graph->createLibSym();
-		std::cout << "Passed Graphlib\n";
+//		lib_handler = load_graph->createLibSym();
 		game_handler = load_game->createGameSym();
-		std::cout << "Passed Gamelib\n";
 	} catch (const GraphicalInitError *e) {
 		std::string str = e->what();
 		std::cout << "CRASH INIT: [" << str << "]\n";
 	}
 
 	try {
+		std::cout << "I am in the try block" << std::endl;
+		game_handler->menuPause();
+		std::cout << "I am in the try block" << std::endl;
 		while (game_handler->endGame() == false) {
-			lib_handler->drawScene(game_handler->updateScene(lib_handler->getKey()));
-			lib_handler->display();
+			std::cout << "Am i even here ?" << std::endl;
+			game_handler->updateScene("NO_EVENT");
+//			lib_handler->drawScene(game_handler->updateScene(lib_handler->getKey()));
+//			lib_handler->display();
+			usleep(50000);
 		}
 	} catch (const std::exception *e) {
 		std::string str = e->what();
