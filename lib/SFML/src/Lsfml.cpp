@@ -109,51 +109,7 @@ void	Lsfml::drawButton(Button &button)
 std::string	Lsfml::getKey()
 {
 	size_t to_find = 0;
-/*
-	if (event.type == sf::Event::KeyPressed)
-	{
-		switch (event.key.code) {
-		case sf::Keyboard::Left:
-			to_find = 1;
-			break;
-		case sf::Keyboard::Right:
-			to_find = 2;
-			break;
-		case sf::Keyboard::Up:
-			to_find = 3;
-			break;
-		case sf::Keyboard::Down:
-			to_find = 4;
-			break;
-		case sf::Keyboard::P:
-			to_find = 5;
-			break;
-		case sf::Keyboard::Escape:
-			to_find = 6;
-			break;
-		case sf::Keyboard::BackSpace:
-			to_find = 7;
-			break;
-		case sf::Keyboard::R:
-			to_find = 8;
-			break;
-		case sf::Keyboard::Home:
-			to_find = 9;
-			break;
-		case sf::Keyboard::End:
-			to_find = 10;
-			break;
-		case sf::Keyboard::PageDown:
-			to_find = 11;
-			break;
-		case sf::Keyboard::PageUp:
-			to_find = 12;
-			break;
-		default:
-			to_find = 0;
-			break;
-		}
-		}*/
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			to_find = 1;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -180,12 +136,11 @@ std::string	Lsfml::getKey()
 			to_find = 12;
 	for (unsigned int i = 0; i < DICO.size(); i++) {
 		if (std::get<0> (DICO[i]) == to_find) {
-				return std::get<1> (DICO[i]);
-			}
+			return std::get<1> (DICO[i]);
+		}
 	}
 	return "NO_EVENT";
 }
-
 
 void    Lsfml::drawText(Text &text)
 {
@@ -207,7 +162,6 @@ void    Lsfml::drawText(Text &text)
 
 void	Lsfml::drawScene(Scene &scene)
 {
-	clear();
 	std::string title = scene.getTitle();
 	sf::Vector2u size = _window.getSize();
 
@@ -228,18 +182,20 @@ void	Lsfml::drawScene(Scene &scene)
 		throw new GraphicalInLibError(str, "SFML");
 		}*/
 
-	sf::Texture texture;
 	sf::Sprite toDraw;
 
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 20; j++) {
+			sf::Texture texture;
 			try  {
 				if (texture.loadFromFile(scene.getBoardGame().getSprites(std::make_pair(i, j)).at(0)) == false)
 					throw std::string("loadFromFile: couldn't load texture\n");
 			else {
 				toDraw.setTexture(texture);
-				toDraw.setPosition((float) j * size.x, (float)i * size.y);
-				switch(scene.getBoardGame().getDirection(std::make_pair(i, j))) {
+				std::cout << "Nothing once ? " << scene.getBoardGame().getSprites(std::make_pair(i, j)).at(0) << std::endl;
+				toDraw.setScale((float) (1.0 / texture.getSize().x * PIX_SIZE), (float) (1.0 / texture.getSize().y * PIX_SIZE));
+				toDraw.setPosition((float) (size.x / 2 - ((WIDTH_BOARD * PIX_SIZE) / 2)) + j * PIX_SIZE, (float) (size.y / 2 - ((HEIGHT_BOARD * PIX_SIZE) / 2)) + i * PIX_SIZE);
+/*				switch(scene.getBoardGame().getDirection(std::make_pair(i, j))) {
 				case NORTH:
 					toDraw.setRotation(-90);
 					break;
@@ -252,12 +208,13 @@ void	Lsfml::drawScene(Scene &scene)
 				default:
 					toDraw.setRotation(0);
 					break;
-				}
+					}*/
 			}
 			} catch (std::string const &str) {
 				throw new GraphicalInLibError(str, "SFML");
 			}
 			_window.draw(toDraw);
+//			delete &texture;
 		}
 	}
 }
@@ -265,4 +222,5 @@ void	Lsfml::drawScene(Scene &scene)
 void Lsfml::display()
 {
 	_window.display();
+	clear();
 }

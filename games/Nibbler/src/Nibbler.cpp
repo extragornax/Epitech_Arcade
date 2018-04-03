@@ -208,8 +208,7 @@ void	Nibbler::_spawnFood()
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
 
-	while (_nibblerScene.getBoardGame().getCharacters(std::make_pair(i, j))[0] != BACKGROUND_CHAR
-	&& _nibblerScene.getBoardGame().getCharacters(std::make_pair(i, j))[0] != SNAKE_BODY_CHAR) {
+	while (_nibblerScene.getBoardGame().getCharacters(std::make_pair(i, j))[0] != BACKGROUND_CHAR) {
 		i = rand() % 20;
 		j = rand() % 20;
 	}

@@ -39,10 +39,21 @@ int	main(int ac, char **av)
 	}
 
 	try {
+		std::clock_t startTime = std::clock();
+		std::string event = "NO_EVENT";
 		while (game_handler->endGame() == false) {
-			lib_handler->drawScene(game_handler->updateScene(lib_handler->getKey()));
-			lib_handler->display();
-			usleep(500000);
+			std::string tryEvent = lib_handler->getKey();
+			event = (tryEvent == "NO_EVENT") ? event : tryEvent;
+			std::clock_t elapsedTime = std::clock();
+			std::clock_t deltaTime = elapsedTime - startTime;
+
+			if (deltaTime > 250000) {
+				lib_handler->drawScene(game_handler->updateScene(event));
+				lib_handler->display();
+				startTime = std::clock();
+				event = "NO_EVENT";
+			}
+//			usleep(500000);
 		}
 	} catch (const std::exception *e) {
 		std::string str = e->what();

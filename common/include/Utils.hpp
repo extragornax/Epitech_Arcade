@@ -74,3 +74,4 @@ struct Disp {
 
 static const size_t HEIGHT_BOARD = 20;
 static const size_t WIDTH_BOARD = 20;
+static const size_t PIX_SIZE = 20;
