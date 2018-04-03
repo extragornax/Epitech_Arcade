@@ -39,7 +39,7 @@ Lsfml::~Lsfml()
 ** TODO   Dictionnaire Event(get Key)/drawScene/display?
 **
  */
- 
+
 
 void	Lsfml::clear()
 {
@@ -151,7 +151,7 @@ void    Lsfml::drawText(Text &text)
 			throw std::string("loadFromFile: couldn't load font\n");
 		else {
 			sf::Text toDraw(text.text, font, text.size);
-			toDraw.setColor(sf::Color(text.color.r, text.color.g, text.color.b, text.color.a));
+			toDraw.setFillColor(sf::Color(text.color.r, text.color.g, text.color.b, text.color.a));
 			toDraw.setPosition(std::get<0> (text.pos), std::get<1> (text.pos));
 			_window.draw(toDraw);
 		}
