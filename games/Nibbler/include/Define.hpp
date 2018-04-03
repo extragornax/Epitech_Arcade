@@ -20,6 +20,7 @@
 // Defines for sprites to use in graphical libs
 # define WALL_SPRITE	"games/Nibbler/misc/sprites/walls.png"
 # define SNAKE_BODY_SPRITE	"games/Nibbler/misc/sprites/snake.png"
+# define SNAKE_HEAD_SPRITE	"games/Nibbler/misc/sprites/snake_head.png"
 # define BACKGROUND_SPRITE	"games/Nibbler/misc/sprites/background.png"
 # define FOOD_SPRITE	"games/Nibbler/misc/sprites/food.png"
 

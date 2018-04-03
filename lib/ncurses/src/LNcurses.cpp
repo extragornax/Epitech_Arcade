@@ -42,6 +42,7 @@ LNcurses::LNcurses()
 		throw new GraphicalInitError("Error in nodelay init\n", "Ncurses");
 	if (curs_set(0) == ERR)
 		throw new GraphicalInitError("Error in curs_set init\n", "Ncurses");
+	start_color();
 	_get_winSize();
 }
 
@@ -120,7 +121,12 @@ void	LNcurses::drawScene(Scene &scene)
 		_moveCursor(_start_game);
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
+				init_color(COLOR_RED, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).r, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).g, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).b);
+				init_color(COLOR_BLACK, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).r, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).g, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).b);
+				init_pair(1, COLOR_BLACK, COLOR_RED);
+				attron(COLOR_PAIR(1));
 				mvprintw(i + x, j + y, "%c", scene.getBoardGame().getCharacters(std::make_pair(i, j)).at(0));
+				attroff(COLOR_PAIR(1));
 			}
 		}
 	} catch (const GraphicalInLibError &e) {
