@@ -23,7 +23,7 @@ public:
         ~Nibbler() override;
 
         // Member functions
-	Scene	&updateScene(std::string event) override;
+	Scene	&updateScene(size_t event) override;
 	void	saveScore(std::string nickname) override;
 	void	menuPause() override;
 	bool	endGame() override;
@@ -35,7 +35,7 @@ private:
 	// Private member functions
         void	_setBoard();
 	void	_spawnFood();
-	void	_updateBoard(Board &board, std::string event);
+	void	_updateBoard(Board &board, size_t event);
 	void	_moveSideway(Board &board, long unsigned int i, long unsigned int j,
 			     long unsigned int i2, long unsigned int j2, int incr);
 	void	_moveVertical(Board &board, long unsigned int i, long unsigned int j,

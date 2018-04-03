@@ -76,28 +76,29 @@ void	Nibbler::_setBoard()
 	}
 }
 
-Scene	&Nibbler::updateScene(std::string event)
+Scene	&Nibbler::updateScene(size_t event)
 {
 	_updateBoard(_nibblerScene.getBoardGame(), event);
 	return (_nibblerScene);
 }
 
-void	Nibbler::_updateBoard(Board &board, std::string event)
+void	Nibbler::_updateBoard(Board &board, size_t event)
 {
 	long unsigned int i = std::get<0> (_snake.front());
 	long unsigned int j = std::get<1> (_snake.front());
 	long unsigned int i2 = std::get<0> (_snake.back());
 	long unsigned int j2 = std::get<1> (_snake.back());
+	std::string eventStr = std::get<1> (DICO[event]);
 
-	if (event == "RIGHT") {
+	if (eventStr == "RIGHT") {
 		_moveVertical(board, i, j, i2, j2, 1);
-	} else if (event == "LEFT") {
+	} else if (eventStr == "LEFT") {
 		_moveVertical(board, i, j, i2, j2, -1);
-	} else if (event == "UP") {
+	} else if (eventStr == "UP") {
 		_moveSideway(board, i, j, i2, j2, -1);
-	} else if (event == "DOWN") {
+	} else if (eventStr == "DOWN") {
 		_moveSideway(board, i, j, i2, j2, 1);
-	} else if (event == "NO_EVENT") {
+	} else if (eventStr == "NO_EVENT") {
 		if (board.getDirection(_snake.front()) == WEST || board.getDirection(_snake.front()) == EAST) {
 			_moveSideway(board, i, j, i2, j2, (board.getDirection(_snake.front()) == WEST) ? 1 : -1);
 		} else {

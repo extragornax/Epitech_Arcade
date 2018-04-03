@@ -24,7 +24,7 @@ public:
 	void drawButton(Button &button) override;
 	void drawScene(Scene &scene) override;
 	void display() override;
-	std::string getKey() override;
+        size_t getKey() override;
 
 	private:
 	void _moveCursor(Position pos);

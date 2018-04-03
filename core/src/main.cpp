@@ -40,10 +40,10 @@ int	main(int ac, char **av)
 
 	try {
 		std::clock_t startTime = std::clock();
-		std::string event = "NO_EVENT";
+	        size_t event = 0;
 		while (game_handler->endGame() == false) {
-			std::string tryEvent = lib_handler->getKey();
-			event = (tryEvent == "NO_EVENT") ? event : tryEvent;
+			size_t tryEvent = lib_handler->getKey();
+			event = (tryEvent == 0) ? event : tryEvent;
 			std::clock_t elapsedTime = std::clock();
 			std::clock_t deltaTime = elapsedTime - startTime;
 
@@ -51,7 +51,7 @@ int	main(int ac, char **av)
 				lib_handler->drawScene(game_handler->updateScene(event));
 				lib_handler->display();
 				startTime = std::clock();
-				event = "NO_EVENT";
+				event = 0;
 			}
 //			usleep(500000);
 		}

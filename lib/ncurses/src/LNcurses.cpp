@@ -134,13 +134,13 @@ void	LNcurses::display()
 	refresh();
 }
 
-std::string LNcurses::getKey()
+size_t LNcurses::getKey()
 {
 	int ret = 0;
 	size_t to_find = 0;
 
 	if ((ret = getch()) == ERR)
-		return "NO_EVENT";
+		return 0;
 	switch (ret) {
 		case KEY_LEFT:
 			to_find = 1;
@@ -179,12 +179,13 @@ std::string LNcurses::getKey()
 			to_find = 12;
 			break;
 	}
-	for (unsigned int i = 0; i < DICO.size(); i++) {
+	return to_find;
+/*	for (unsigned int i = 0; i < DICO.size(); i++) {
 		if (std::get<0> (DICO[i]) == to_find) {
 			return std::get<1> (DICO[i]);
 		}
 	}
-	return "NO_EVENT";
+	return "NO_EVENT";*/
 	/*
 	auto it = std::find_if(DICO.begin(), DICO.end(),
 		[](const std::pair<size_t, std::string> &element){

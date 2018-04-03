@@ -25,7 +25,7 @@ public:
 	virtual void	drawButton(Button &button) = 0;
 	virtual void	drawScene(Scene &scene) = 0;
 	virtual void	display() = 0;
-	virtual std::string	getKey() = 0;
+	virtual size_t	getKey() = 0;
 };
 
 #endif /* ILIB_HPP_ */

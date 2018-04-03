@@ -39,7 +39,7 @@ Lsfml::~Lsfml()
 ** TODO   Dictionnaire Event(get Key)/drawScene/display?
 **
  */
-
+ 
 
 void	Lsfml::clear()
 {
@@ -106,7 +106,7 @@ void	Lsfml::drawButton(Button &button)
 	}
 }
 
-std::string	Lsfml::getKey()
+size_t	Lsfml::getKey()
 {
 	size_t to_find = 0;
 
@@ -134,12 +134,13 @@ std::string	Lsfml::getKey()
 			to_find = 11;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp))
 			to_find = 12;
-	for (unsigned int i = 0; i < DICO.size(); i++) {
+/*	for (unsigned int i = 0; i < DICO.size(); i++) {
 		if (std::get<0> (DICO[i]) == to_find) {
 			return std::get<1> (DICO[i]);
 		}
-	}
-	return "NO_EVENT";
+		}
+		return "NO_EVENT";*/
+	return to_find;
 }
 
 void    Lsfml::drawText(Text &text)
@@ -151,7 +152,7 @@ void    Lsfml::drawText(Text &text)
 			throw std::string("loadFromFile: couldn't load font\n");
 		else {
 			sf::Text toDraw(text.text, font, text.size);
-			toDraw.setFillColor(sf::Color(text.color.r, text.color.g, text.color.b, text.color.a));
+			toDraw.setColor(sf::Color(text.color.r, text.color.g, text.color.b, text.color.a));
 			toDraw.setPosition(std::get<0> (text.pos), std::get<1> (text.pos));
 			_window.draw(toDraw);
 		}

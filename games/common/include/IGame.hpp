@@ -18,7 +18,7 @@ public:
 	virtual ~IGame() {};
 
 	// Member functions
-	virtual Scene	&updateScene(std::string last) = 0;
+	virtual Scene	&updateScene(size_t last) = 0;
 	virtual void	saveScore(std::string nickname) = 0;
 	virtual void	menuPause() = 0;
 	virtual bool	endGame() = 0;
