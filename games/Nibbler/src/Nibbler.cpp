@@ -41,37 +41,32 @@ Nibbler::~Nibbler()
 
 void	Nibbler::_setBoard()
 {
-	std::ifstream fs(NIBBLER_CONF);
-	std::string line;
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
 
-	if (fs.is_open()) {
-		for (int i = 0; i < 20; i++) {
-			std::getline(fs, line);
-			for (int j = 0; j < 20; j++) {
-				if (line[j] == '1') {
-					sprites.push_back(WALL_SPRITE);
-					chars.push_back(WALL_CHAR);
-					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
-				} else if (line[j] == '3') {
-					_snake.push_front(std::make_pair(i, j));
-					sprites.push_back(SNAKE_BODY_SPRITE);
-					chars.push_back(SNAKE_BODY_CHAR);
-					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
-				} else if (line[j] == '2') {
-					_snake.push_back(std::make_pair(i, j));
-					sprites.push_back(SNAKE_BODY_SPRITE);
-					chars.push_back(SNAKE_BODY_CHAR);
-					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
-				} else {
-					sprites.push_back(BACKGROUND_SPRITE);
-					chars.push_back(BACKGROUND_CHAR);
-					_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
-				}
-				chars.clear();
-				sprites.clear();
+	for (unsigned int i = 0; i < HEIGHT_BOARD; i++) {
+		for (unsigned int j = 0; j < WIDTH_BOARD; j++) {
+			if (baseMap[i][j] == '1') {
+				sprites.push_back(WALL_SPRITE);
+				chars.push_back(WALL_CHAR);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+			} else if (baseMap[i][j] == '3') {
+				_snake.push_front(std::make_pair(i, j));
+				sprites.push_back(SNAKE_BODY_SPRITE);
+				chars.push_back(SNAKE_BODY_CHAR);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+			} else if (baseMap[i][j] == '2') {
+				_snake.push_back(std::make_pair(i, j));
+				sprites.push_back(SNAKE_BODY_SPRITE);
+				chars.push_back(SNAKE_BODY_CHAR);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
+			} else {
+				sprites.push_back(BACKGROUND_SPRITE);
+				chars.push_back(BACKGROUND_CHAR);
+				_nibblerScene.getBoardGame().createTile(std::make_pair(i, j), sprites, chars, NORTH);
 			}
+			chars.clear();
+			sprites.clear();
 		}
 	}
 }
@@ -90,14 +85,15 @@ void	Nibbler::_updateBoard(Board &board, size_t event)
 	long unsigned int j2 = std::get<1> (_snake.back());
 	std::string eventStr = std::get<1> (DICO[event]);
 
+//	std::cout << _nibblerScene.getBoardGame().getDirection(std::make_pair(i, j)) << std::endl;
 	if (eventStr == "RIGHT") {
-		_moveVertical(board, i, j, i2, j2, 1);
-	} else if (eventStr == "LEFT") {
-		_moveVertical(board, i, j, i2, j2, -1);
-	} else if (eventStr == "UP") {
-		_moveSideway(board, i, j, i2, j2, -1);
-	} else if (eventStr == "DOWN") {
 		_moveSideway(board, i, j, i2, j2, 1);
+	} else if (eventStr == "LEFT") {
+		_moveSideway(board, i, j, i2, j2, -1);
+	} else if (eventStr == "UP") {
+		_moveVertical(board, i, j, i2, j2, -1);
+	} else if (eventStr == "DOWN") {
+		_moveVertical(board, i, j, i2, j2, 1);
 	} else if (eventStr == "NO_EVENT") {
 		if (board.getDirection(_snake.front()) == WEST || board.getDirection(_snake.front()) == EAST) {
 			_moveSideway(board, i, j, i2, j2, (board.getDirection(_snake.front()) == WEST) ? 1 : -1);
@@ -107,12 +103,12 @@ void	Nibbler::_updateBoard(Board &board, size_t event)
 	}
 }
 
-void	Nibbler::_moveVertical(Board &board, long unsigned int i, long unsigned int j,
+void	Nibbler::_moveSideway(Board &board, long unsigned int i, long unsigned int j,
 			       long unsigned int i2, long unsigned int j2, int incr)
 {
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
-	Direction direction = (incr == 1) ? SOUTH : NORTH;
+	Direction direction = (incr == 1) ? WEST : EAST;
 	// Recovers head and tail of the snake and the second node position
 	Position pos_first = std::make_pair(i, j + incr);
 	Position pos_last = std::make_pair(i2, j2);
@@ -145,6 +141,7 @@ void	Nibbler::_moveVertical(Board &board, long unsigned int i, long unsigned int
 		board.setDirection(pos_first, direction);
 		_spawnFood();
 	} else if (j + incr < 20 && pos_second == std::make_pair(i, j + incr)) {
+		_moveVertical(board, i, j, i2, j2, -incr);
 		// Means you're trying to go backwards, which you can't do in snake, so just does nothing.
 		;
 	} else {
@@ -154,12 +151,12 @@ void	Nibbler::_moveVertical(Board &board, long unsigned int i, long unsigned int
 	}
 }
 
-void	Nibbler::_moveSideway(Board &board, long unsigned int i, long unsigned int j,
+void	Nibbler::_moveVertical(Board &board, long unsigned int i, long unsigned int j,
 			      long unsigned int i2, long unsigned int j2, int incr)
 {
 	std::vector<std::string> sprites;
 	std::vector<char> chars;
-	Direction direction = (incr == 1) ? WEST : EAST;
+	Direction direction = (incr == 1) ? SOUTH : NORTH;
 	// Recovers head and tail of the snake and the second node position
 	Position pos_first = std::make_pair(i + incr, j);
 	Position pos_last = std::make_pair(i2, j2);
@@ -192,6 +189,7 @@ void	Nibbler::_moveSideway(Board &board, long unsigned int i, long unsigned int 
 		board.setDirection(pos_first, direction);
 		_spawnFood();
 	} else if (i + incr < 20 && pos_second == std::make_pair(i + incr, j)) {
+		_moveSideway(board, i, j, i2, j2, -incr);
 		// Means you're trying to go backwards, which you can't do in snake, so just does nothing.
 		;
 	} else {

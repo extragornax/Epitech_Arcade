@@ -193,7 +193,7 @@ void	Lsfml::drawScene(Scene &scene)
 					throw std::string("loadFromFile: couldn't load texture\n");
 			else {
 				toDraw.setTexture(texture);
-				std::cout << "Nothing once ? " << scene.getBoardGame().getSprites(std::make_pair(i, j)).at(0) << std::endl;
+//				std::cout << "Nothing once ? " << scene.getBoardGame().getSprites(std::make_pair(i, j)).at(0) << std::endl;
 				toDraw.setScale((float) (1.0 / texture.getSize().x * PIX_SIZE), (float) (1.0 / texture.getSize().y * PIX_SIZE));
 				toDraw.setPosition((float) (size.x / 2 - ((WIDTH_BOARD * PIX_SIZE) / 2)) + j * PIX_SIZE, (float) (size.y / 2 - ((HEIGHT_BOARD * PIX_SIZE) / 2)) + i * PIX_SIZE);
 /*				switch(scene.getBoardGame().getDirection(std::make_pair(i, j))) {
