@@ -32,8 +32,8 @@ LNcurses::LNcurses()
 {
 	if ((_window = initscr()) == nullptr)
 		throw new GraphicalInitError("Error in screen init\n", "Ncurses");
-	if (cbreak() == ERR)
-		throw new GraphicalInitError("Error in raw init\n", "Ncurses");
+	if (nodelay(_window, TRUE) == ERR)
+		throw new GraphicalInitError("Error in no delay\n", "Ncurses");
 	if (noecho() == ERR)
 		throw new GraphicalInitError("Error in noecho init\n", "Ncurses");
 	if (keypad(stdscr, 1) == ERR)
