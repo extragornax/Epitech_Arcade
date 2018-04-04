@@ -11,9 +11,10 @@ CC	= g++
 
 RM	= rm -f
 
-SRCS	= ./core/src/lib_loader.cpp \
-	  ./core/src/main.cpp	    \
+SRCS	= ./core/src/main.cpp	    \
 	  ./common/src/Errors.cpp
+#./core/src/lib_loader.cpp \
+	  .
 
 OBJS	= $(SRCS:.cpp=.o)
 

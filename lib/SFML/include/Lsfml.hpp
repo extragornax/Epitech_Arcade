@@ -31,3 +31,5 @@ class Lsfml : public ILib {
 	sf::SoundBuffer _buffer;
 	sf::Sound	_sound;
 };
+
+static const size_t PIX_SIZE = 20;

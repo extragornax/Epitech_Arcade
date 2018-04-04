@@ -10,23 +10,21 @@
 #include "Errors.hpp"
 
 Dlloader::Dlloader(std::string path)
-	: _path(path)
-{
-	char *error = nullptr;
-
-	_open = dlopen(_path.data(), RTLD_LAZY);
-	error = dlerror();
-	if (error) {
-		std::cout << "ERROR " << error << std::endl;
-		throw new DLError("Error in loading " + _path + " lib", "LibLoader");
-	}
-}
+	
 
 Dlloader::~Dlloader()
 {
-	dlclose(_open);
+	
 }
 
+T *Dlloader::createLibSym()
+{
+        T *(*create) ();
+
+	*(void **)(&create) = dlsym(_open, "create");
+	return create();
+}
+/*
 ILib *Dlloader::createLibSym()
 {
 	ILib *(*createLib) ();
@@ -42,3 +40,4 @@ IGame *Dlloader::createGameSym()
 	*(void **)(&createGame) = dlsym(_open, "createGame");
 	return createGame();
 }
+*/

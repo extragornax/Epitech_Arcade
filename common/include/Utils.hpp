@@ -32,8 +32,8 @@ static const std::vector<std::pair<size_t, std::string>> DICO =
 
 enum Direction {
 	NORTH,
-	SOUTH,
 	EAST,
+	SOUTH,
 	WEST,
 };
 
@@ -42,6 +42,8 @@ enum gameStatus {
 	WIN,
 	LOSE,
 	PAUSE,
+	QUIT,
+	MENU,
 };
 
 struct Color {
@@ -69,9 +71,8 @@ struct Button {
 struct Disp {
 	std::string path;
 	char character;
-	Position position;
+	Position pos;
 };
 
 static const size_t HEIGHT_BOARD = 20;
 static const size_t WIDTH_BOARD = 20;
-static const size_t PIX_SIZE = 20;

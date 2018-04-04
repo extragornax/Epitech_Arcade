@@ -26,15 +26,15 @@ public:
 	void display() override;
         size_t getKey() override;
 
-	private:
+private:
 	void _moveCursor(Position pos);
 	void _refreshScreen();
 	void _print_text(std::string text);
 	void _get_winSize();
 
-	private:
-	    char _getch;
-	    WINDOW *_window;
-	    Position _start_game;
-	    Position _screen_size;
+private:
+	char _getch;
+	WINDOW *_window;
+	Position _start_game;
+	Position _screen_size;
 };

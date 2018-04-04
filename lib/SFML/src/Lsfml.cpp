@@ -19,9 +19,9 @@
 
 extern "C"
 {
-	ILib *createLib()
+	ILib *create()
 	{
-		return new Lsfml();
+		return new Lsfml;
 	}
 }
 
@@ -33,6 +33,7 @@ Lsfml::Lsfml()
 
 Lsfml::~Lsfml()
 {
+	_window.close();
 }
 
 /*
@@ -79,7 +80,7 @@ void	Lsfml::drawDisp(Disp &disp)
 		else {
 			sf::Sprite toDraw;
 			toDraw.setTexture(texture);
-			toDraw.setPosition(std::get<0> (disp.position), std::get<1> (disp.position));
+			toDraw.setPosition(std::get<0> (disp.pos), std::get<1> (disp.pos));
 			_window.draw(toDraw);
 		}
 	} catch(std::string const &str) {
@@ -152,7 +153,7 @@ void    Lsfml::drawText(Text &text)
 			throw std::string("loadFromFile: couldn't load font\n");
 		else {
 			sf::Text toDraw(text.text, font, text.size);
-			toDraw.setColor(sf::Color(text.color.r, text.color.g, text.color.b, text.color.a));
+			//	toDraw.setColor(sf::Color(text.color.r, text.color.g, text.color.b, text.color.a));
 			toDraw.setPosition(std::get<0> (text.pos), std::get<1> (text.pos));
 			_window.draw(toDraw);
 		}

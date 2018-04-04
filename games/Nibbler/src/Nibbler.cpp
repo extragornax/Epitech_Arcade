@@ -19,7 +19,7 @@
 
 extern "C"
 {
-        IGame *createGame()
+        IGame *create()
 	{
 		return new Nibbler;
 	}
@@ -33,6 +33,7 @@ Nibbler::Nibbler()
 	_score = 0;
 	_gameStatus = INGAME;
 	_spawnFood();
+	_timeLimit = 270000;
 }
 
 Nibbler::~Nibbler()
@@ -106,7 +107,16 @@ void	Nibbler::_setBoard()
 
 Scene	&Nibbler::updateScene(size_t event)
 {
-	_updateBoard(_nibblerScene.getBoardGame(), event);
+	static std::clock_t	startTime = std::clock();
+	static size_t	tryEvent = 0;
+
+	if (event != 0)
+		tryEvent = event;
+	if (std::clock() - startTime > _timeLimit) {
+		_updateBoard(_nibblerScene.getBoardGame(), tryEvent);
+		startTime = std::clock();
+		tryEvent = 0;
+	}
 	return (_nibblerScene);
 }
 
@@ -198,6 +208,9 @@ void	Nibbler::_moveSideway(Board &board, long unsigned int i, long unsigned int 
 		board.setColorForeground(pos_first, color);
 		chars.clear();
 		sprites.clear();
+		_nibblerScene.getScore() += 1;
+		if (_nibblerScene.getScore() % 3 == 0)
+			_timeLimit -= 10000;
 		_spawnFood();
 	} else if (j + incr < 20 && pos_second == std::make_pair(i, j + incr)) {
 		_moveSideway(board, i, j, i2, j2, -incr);
@@ -285,6 +298,9 @@ void	Nibbler::_moveVertical(Board &board, long unsigned int i, long unsigned int
 		color.b = 0;
 		color.g = 0;
 		board.setColorForeground(pos_first, color);
+		_nibblerScene.getScore() += 1;
+		if (_nibblerScene.getScore() % 3 == 0)
+			_timeLimit -= 10000;
 		_spawnFood();
 	} else if (i + incr < 20 && pos_second == std::make_pair(i + incr, j)) {
 		_moveVertical(board, i, j, i2, j2, -incr);
