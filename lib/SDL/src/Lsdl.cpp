@@ -51,6 +51,7 @@ Lsdl::Lsdl()
 Lsdl::~Lsdl()
 {
 	SDL_DestroyWindow(_window);
+	SDL_FreeSurface(_screen);
 	SDL_Quit();
 }
 
