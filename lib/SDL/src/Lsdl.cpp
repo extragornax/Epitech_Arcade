@@ -93,5 +93,52 @@ void Lsdl::stopSound(const std::string &path)
 
 size_t Lsdl::getKey()
 {
+	SDL_Event	*_event;
+	size_t		to_find = 0;
 
+	SDL_PollEvent(&_event);
+	if (_event != NULL) {
+		if (event.type == SDL_KEYDOWN) {
+			SDL_KeyboardEvent key = _event->key;
+			switch (key.keysym) {
+				case SDLK_LEFT:
+					to_find = 1;
+					break;
+				case SDLK_RIGHT:
+					to_find = 2;
+					break;
+				case SDLK_UP:
+					to_find = 3;
+					break;
+				case SDLK_DOWN:
+					to_find = 4;
+					break;
+				case DLK_p:
+					to_find = 5;
+					break;
+				case SDLK_ESCAPE:
+					to_find = 6;
+					break;
+				case SDLK_BACKSPACE:
+					to_find = 7;
+					break;
+				case DLK_r:
+					to_find = 8;
+					break;
+				case SDLK_HOME:
+					to_find = 9;
+					break;
+				case SDLK_END:
+					to_find = 10;
+					break;
+				case SDLK_PAGEUP:
+					to_find = 11;
+					break;
+				case SDLK_PAGEDOWN:
+					to_find = 12;
+					break;
+			}
+		}
+	}
+	return to_find;
 }
