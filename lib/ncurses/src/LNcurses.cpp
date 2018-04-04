@@ -123,7 +123,7 @@ void	LNcurses::drawScene(Scene &scene)
 //				init_color(COLOR_RED, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).r, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).g, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).b);
 //			        init_color(COLOR_BLACK, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).r, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).g, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).b);
 				init_pair(1, COLOR_GREEN, COLOR_BLACK);
-				attron(COLOR_PAIR(1) | A_STANDOUT | A_BOLD);
+				attron(COLOR_PAIR(1) | A_BOLD);
 				mvprintw(i + x, j + y, "%c", scene.getBoardGame().getCharacters(std::make_pair(i, j)).at(0));
 				attroff(COLOR_PAIR(1));
 			}

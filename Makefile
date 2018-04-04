@@ -7,7 +7,7 @@
 
 NAME	= arcade
 
-CC	= g++
+CC	= g++ -g3
 
 RM	= rm -f
 
