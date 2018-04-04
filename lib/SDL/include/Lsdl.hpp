@@ -1,8 +1,8 @@
 //
 // EPITECH PROJECT, 2018
-// cpp_arcade
+// Arcade
 // File description:
-// sfml header
+// SDL header
 //
 
 #pragma once
@@ -10,6 +10,9 @@
 #include <SDL/SDL.h>
 #include <string>
 #include "ILib.hpp"
+
+extern const int SCREEN_WIDTH;
+extern const int SCREEN_HEIGHT;
 
 class Lsdl : public ILib {
         public:
@@ -26,7 +29,6 @@ class Lsdl : public ILib {
 	size_t getKey();
 
         private:
-	//sf::RenderWindow _window;
-	//sf::SoundBuffer _buffer;
-	//sf::Sound	_sound;
+	SDL_Window *_window;
+
 };
