@@ -39,6 +39,10 @@ Lsdl::Lsdl()
 			std::string str(SDL_GetError());
 			throw std::string ("Cannot open SDL window\n" + str));
 		}
+		if ((_screen = SDL_GetWindowSurface(_window)) == NULL) {
+			std::string str(SDL_GetError());
+			throw std::string ("Cannot retrieve screen from SDL window\n" + str));
+		}
 	} catch (std::string const &str) {
 		throw new GraphicalInitError(str, "SDL");
 	}
