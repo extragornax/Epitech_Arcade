@@ -31,4 +31,5 @@ class Lsdl : public ILib {
 	private:
 		SDL_Window	*_window;
 		SDL_Surface *_screen;
+		SDL_Renderer *_render;
 };

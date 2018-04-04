@@ -43,6 +43,10 @@ Lsdl::Lsdl()
 			std::string str(SDL_GetError());
 			throw std::string ("Cannot retrieve screen from SDL window\n" + str));
 		}
+		if ((_render = SDL_CreateRenderer(window, -1, 0)) == NULL) {
+			std::string str(SDL_GetError());
+			throw std::string ("Cannot create SDL render screen\n" + str));
+		}
 	} catch (std::string const &str) {
 		throw new GraphicalInitError(str, "SDL");
 	}
@@ -58,7 +62,7 @@ Lsdl::~Lsdl()
 
 void Lsdl::clear()
 {
-
+	SDL_RenderClear(_render);
 }
 
 void Lsdl::drawText(Text &text)
@@ -83,7 +87,7 @@ void Lsdl::drawScene(Scene &scene)
 
 void Lsdl::display()
 {
-
+	SDL_RenderPresent(_render);
 }
 
 void Lsdl::playSound(const std::string &path)
