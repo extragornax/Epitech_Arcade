@@ -44,7 +44,7 @@ CPPFLAGS += -W -Wall -Wextra -fPIC
 LDFLAGS	= -shared
 
 
-all: $(NAMESFML) $(NAMENCURSES) #$(NAMESDL)
+all: $(NAMESFML) $(NAMENCURSES) $(NAMESDL)
 
 $(NAMENCURSES): $(OBJSNCURSES)
 	 $(CC) $(LDFLAGS) -o $(NAMENCURSES) $(OBJSNCURSES) -lncurses
@@ -53,7 +53,7 @@ $(NAMESFML): $(OBJSSFML)
 	$(CC) $(OBJSSFML) -o $(NAMESFML) $(LDFLAGS) -lsfml-system -lsfml-window -lsfml-network -lsfml-graphics -lsfml-audio
 
 $(NAMESDL): $(OBJSSDL)
-	 $(CC) $(LDFLAGS) -o $(NAMESDL) $(OBJSSDL) -lSDL
+	 $(CC) $(LDFLAGS) -o $(NAMESDL) $(OBJSSDL) -lSDL2 -lSDL2_ttf
 
 clean:
 	$(RM) $(OBJSNCURSES)
