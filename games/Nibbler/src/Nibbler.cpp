@@ -12,7 +12,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <list>
-#include "Define.hpp"
+#include "DefineNibbler.hpp"
 #include "IGame.hpp"
 #include "Nibbler.hpp"
 #include "Utils.hpp"
