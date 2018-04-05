@@ -11,6 +11,7 @@
 #include <string.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include "Board.hpp"
 #include "Utils.hpp"
 #include "Lsdl.hpp"
@@ -87,17 +88,63 @@ void Lsdl::drawText(Text &text)
 
 void Lsdl::drawDisp(Disp &disp)
 {
+	SDL_Surface *toDraw = NULL;
+	SDL_Rect position;
 
+	toDraw = IMG_Load(disp.path.c_str());
+	position.x = std::get<0> (disp.pos);
+	position.y = std::get<1> (disp.pos);
+	SDL_BlitSurface(toDraw, NULL, _screen, &position);
+	SDL_FreeSurface(toDraw);
 }
 
 void Lsdl::drawButton(Button &button)
 {
+	SDL_Surface *toDraw = NULL;
+	SDL_Rect position;
 
+	toDraw = IMG_Load(button.sprite.c_str());
+	position.x = std::get<0> (button.pos);
+	position.y = std::get<1> (button.pos);
+	SDL_BlitSurface(toDraw, NULL, _screen, &position);
+	SDL_FreeSurface(toDraw);
 }
 
 void Lsdl::drawScene(Scene &scene)
 {
+	std::string title = scene.getTitle();
+	SDL_Surface *toDraw = NULL;
+	SDL_Texture *toDrawText = NULL;
+	SDL_Rect position;
+	double angle;
 
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 20; j++) {
+			toDraw = IMG_Load(scene.getBoardGame().getSprites(std::make_pair(i, j)).at(0).c_str());
+			position.x = (SCREEN_WIDTH / 2 - ((WIDTH_BOARD * PIX_SIZE) / 2)) + j * PIX_SIZE;
+			position.y = (SCREEN_HEIGHT / 2 - ((HEIGHT_BOARD * PIX_SIZE) / 2)) + i * PIX_SIZE;
+			switch(scene.getBoardGame().getDirection(std::make_pair(i, j))) {
+			case NORTH:
+				angle = 0;
+				break;
+			case SOUTH:
+				angle = 180;
+				break;
+			case WEST:
+				angle = 90;
+				break;
+			default:
+				angle = 270;
+				break;
+			}
+					
+			toDrawText = SDL_CreateTextureFromSurface(_render, toDraw);
+			SDL_RenderCopyEx(_render, toDrawText, NULL, NULL, angle, NULL, SDL_FLIP_NONE);
+			SDL_FreeSurface(toDraw);
+			//Du coup, il manque une position a mettre dans le second NULL.. mais c'est plus chiant que ca.
+			//SDL_BlitSurface(toDraw, NULL, _screen, &position);
+		}
+	}
 }
 
 void Lsdl::display()

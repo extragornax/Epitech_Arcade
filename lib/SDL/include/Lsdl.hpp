@@ -33,3 +33,5 @@ class Lsdl : public ILib {
 		SDL_Surface *_screen;
 		SDL_Renderer *_render;
 };
+
+static const size_t PIX_SIZE = 20;

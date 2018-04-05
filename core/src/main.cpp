@@ -40,6 +40,80 @@ std::vector<std::string> getResources(std::string path)
 	return libs;
 }
 
+void	loadMenu(ILib *lib_handler, std::string &lib_path, std::string &game_path)
+{
+	std::vector<Button> games;
+	std::vector<Button> libs;
+	std::vector<Button> *ptr = &games;
+	size_t event = 0;
+
+	games.push_back(Button{"nibbler", "./games/Nibbler/misc/sprites/snake_head.png", Position(10, 10), true});
+	games.push_back(Button{"pacman", "./games/Pacman/misc/sprites/pacman.png", Position(10, 40), false});
+
+	libs.push_back(Button{"ncurses", "./games/Nibbler/misc/sprites/background.png", Position(100, 10), true});
+	libs.push_back(Button{"sfml", "./games/Nibbler/misc/sprites/walls.png", Position(100, 40), false});
+	libs.push_back(Button{"sdl", "./games/Nibbler/misc/sprites/food.png", Position(100, 70), false});
+
+	while ((event = lib_handler->getKey()) != 7) {
+		for (std::vector<Button>::iterator it = games.begin(); it != games.end(); ++it) {
+			lib_handler->drawButton(*it);
+		}
+		for (std::vector<Button>::iterator it = libs.begin(); it != libs.end(); ++it) {
+			lib_handler->drawButton(*it);
+		}
+		if (event == 1)
+			ptr = &games;
+		else if (event == 2)
+			ptr = &libs;
+		if (event == 4)
+		{
+			for (std::vector<Button>::iterator it = (*ptr).begin();
+			     it != (*ptr).end(); ++it)
+				if ((*it).active == true) {
+					(*it).active = false;
+					if ((it + 1) == (*ptr).end())
+						(*ptr).front().active = true;
+					else {
+						++it;
+							(*it).active = true;
+					}
+					break ;
+				}
+		}
+		else if (event == 3)
+		{
+			for (std::vector<Button>::iterator it = (*ptr).begin();
+			     it != (*ptr).end(); ++it)
+				if ((*it).active == true) {
+					(*it).active = false;
+					if ((it) == (*ptr).begin())
+						(*ptr).back().active = true;
+					else {
+						--it;
+						(*it).active = true;
+					}
+					break ;
+				}
+		}
+		usleep(100000);
+		lib_handler->display();
+	}
+	for (std::vector<Button>::iterator it = games.begin(); it != games.end(); ++it) {
+		if ((*it).active == true) {
+			game_path = "./games/lib_arcade_";
+			game_path += (*it).text;
+			game_path += ".so";
+		}
+	}
+	for (std::vector<Button>::iterator it = libs.begin(); it != libs.end(); ++it) {
+		if ((*it).active == true) {
+			lib_path = "./lib/lib_arcade_";
+			lib_path += (*it).text;
+			lib_path += ".so";
+		}
+	}
+}
+
 int	main(int ac, char **av)
 {
 	Dlloader<ILib> *load_graph;
@@ -53,7 +127,7 @@ int	main(int ac, char **av)
 	}
 	try {
 		load_graph = new Dlloader<ILib> (av[1]);
-		load_game = new Dlloader<IGame> ("./games/lib_arcade_nibbler.so");
+		//load_game = new Dlloader<IGame> ("./games/lib_arcade_nibbler.so");
 	} catch (const DLError *e) {
 		std::string str = e->what();
 		std::cout << "CRASH: [" << str << "]\n";
@@ -63,16 +137,37 @@ int	main(int ac, char **av)
 	IGame *game_handler;
 	try {
 		lib_handler = load_graph->createSym();
-		game_handler = load_game->createSym();
+		//game_handler = load_game->createSym();
 	} catch (const GraphicalInitError *e) {
 		std::string str = e->what();
 		std::cout << "CRASH INIT: [" << str << "]\n";
 	}
 
+	std::string lib_path;
+	std::string games_path;
+	
+	loadMenu(lib_handler, lib_path, games_path);
+	delete lib_handler;
+	try {
+		load_graph = new Dlloader<ILib> (lib_path);
+		load_game = new Dlloader<IGame> (games_path);
+	} catch (const DLError *e) {
+		std::string str = e->what();
+		std::cout << "CRASH: [" << str << "]\n";
+		throw e;
+	}
+	try {
+		lib_handler = load_graph->createSym();
+		game_handler = load_game->createSym();
+	} catch (const GraphicalInitError *e) {
+		std::string str = e->what();
+		std::cout << "CRASH INIT: [" << str << "]\n";
+	}
+	
 	try {
 		size_t event = 0;
 		int libPos = 0;
-		while (graph_libs[libPos] != av[1])
+		while (graph_libs[libPos] != lib_path)
 			++libPos;
 		while (game_handler->endGame() == false) {
 			event = lib_handler->getKey();
