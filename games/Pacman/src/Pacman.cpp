@@ -268,7 +268,7 @@ void	Pacman::_moveSideway(Board &board, int i, int j,
 		color.b = 0;
 		color.g = 1000;
 		_pacmanScene.getBoardGame().setColorForeground(pos_last, color);
-	} else if (j + incr && j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == FOOD_CHAR) {
+	} else if (j + incr > 0 && j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == FOOD_CHAR) {
 		// Eats pacgum and increase score
 		chars.push_back(PACMAN_CHAR);
 		sprites.push_back(PACMAN_SPRITE);
@@ -314,25 +314,25 @@ void	Pacman::_moveSideway(Board &board, int i, int j,
 	} else if (j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == GHOST_CHAR) {
 		// If the tile on the direction you're trying to go to is a ghost, you lose
 		_endgame = true;
-	} else if (j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == WALL_CHAR) {
+	} else if (j + incr >= 0 && j + incr <= 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == WALL_CHAR) {
 		switch (board.getDirection(_pacman)) {
 		case WEST:
-			if (board.getCharacters(std::make_pair(i + 1, j))[0] == WALL_CHAR)
-				return;
-			break;
-		case EAST:
-			if (board.getCharacters(std::make_pair(i - 1, j))[0] == WALL_CHAR)
-				return;
-			break;
-		case NORTH:
-			if (board.getCharacters(std::make_pair(i, j - 1))[0] == WALL_CHAR)
-				return;
-			break;
-		case SOUTH:
 			if (board.getCharacters(std::make_pair(i, j + 1))[0] == WALL_CHAR)
 				return;
 			break;
-		}
+		case EAST:
+			if (board.getCharacters(std::make_pair(i, j - 1))[0] == WALL_CHAR)
+				return;
+			break;
+		case NORTH:
+			if (board.getCharacters(std::make_pair(i - 1, j))[0] == WALL_CHAR)
+				return;
+			break;
+		case SOUTH:
+			if (board.getCharacters(std::make_pair(i + 1, j))[0] == WALL_CHAR)
+				return;
+			break;
+		}		
 		if (board.getDirection(_pacman) == WEST || board.getDirection(_pacman) == EAST) {
 			_moveSideway(board, (int) i, (int) j, (board.getDirection(_pacman) == WEST) ? 1 : -1);
 		}
@@ -415,22 +415,22 @@ void	Pacman::_moveVertical(Board &board, int i, int j,
 		// If the tile on the direction you're trying to go to is a ghost, you lose the game
 		_gameStatus = LOSE;
 		_endgame = true;
-	} else if (j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == WALL_CHAR) {
+	} else if (i + incr <= 20 && board.getCharacters(std::make_pair(i + incr, j))[0] == WALL_CHAR) {
 		switch (board.getDirection(_pacman)) {
 		case WEST:
-			if (board.getCharacters(std::make_pair(i + 1, j))[0] == WALL_CHAR)
+			if (board.getCharacters(std::make_pair(i, j + 1))[0] == WALL_CHAR)
 				return;
 			break;
 		case EAST:
-			if (board.getCharacters(std::make_pair(i - 1, j))[0] == WALL_CHAR)
-				return;
-			break;
-		case NORTH:
 			if (board.getCharacters(std::make_pair(i, j - 1))[0] == WALL_CHAR)
 				return;
 			break;
+		case NORTH:
+			if (board.getCharacters(std::make_pair(i - 1, j))[0] == WALL_CHAR)
+				return;
+			break;
 		case SOUTH:
-			if (board.getCharacters(std::make_pair(i, j + 1))[0] == WALL_CHAR)
+			if (board.getCharacters(std::make_pair(i + 1, j))[0] == WALL_CHAR)
 				return;
 			break;
 		}
