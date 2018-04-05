@@ -119,7 +119,7 @@ Scene	&Pacman::updateScene(size_t event)
 	if (event != 0)
 		tryEvent = event;
 	if (std::clock() - startTime > _timeLimit) {
-/*		if (beforeGhosts >= 7) {
+		if (beforeGhosts >= 7) {
 			_updateGhosts(_pacmanScene.getBoardGame(), 0);
 			if (beforeGhosts >= 8)
 				_updateGhosts(_pacmanScene.getBoardGame(), 1);
@@ -129,7 +129,7 @@ Scene	&Pacman::updateScene(size_t event)
 				_updateGhosts(_pacmanScene.getBoardGame(), 3);
 		}
 		if (_endgame)
-		return _pacmanScene;*/
+			return _pacmanScene;
 		_updateBoard(_pacmanScene.getBoardGame(), tryEvent);
 		startTime = std::clock();
 		tryEvent = 0;
@@ -150,54 +150,94 @@ void	Pacman::_updateGhosts(Board &board, int idx)
 	int	i2 = i;
 	int	j2 = j;
 	Ghost	ghost;
+	int	count = 0;
 
-	if (i == 11 && j >= 8 && j <= 11) {
+	if (i == 11 && j >= 8 && j <= 11 && board.getCharacters(std::make_pair(9, 9))[0] != GHOST_CHAR) {
 		if (board.getCharacters(std::make_pair(9, 9))[0] == PACMAN_CHAR) {
 			_endgame = true;
 			return;
 		}
-		chars = board.getCharacters(std::make_pair(i, j));
-		sprites = board.getSprites(std::make_pair(i, j));
+		chars = board.getCharacters(std::make_pair(9, 9));
+		sprites = board.getSprites(std::make_pair(9, 9));
 		ghost.sprites = sprites;
 		ghost.chars = chars;
 		ghost.pos = std::make_pair(9, 9);
 		_ghosts[idx] = ghost;
-	} else {
-		while (!done)
+		chars.clear();
+		sprites.clear();
+		chars.push_back(GHOST_CHAR);
+		board.setCharacters(std::make_pair(9,9), chars);
+		sprites.push_back(GHOST_SPRITE[idx]);
+		board.setSprites(std::make_pair(9,9), sprites);
+	        std::cout << board.getSprites(std::make_pair(9,9))[0] << std::endl;
+		chars.clear();
+		sprites.clear();
+		chars.push_back(BACKGROUND_CHAR);
+		sprites.push_back(BACKGROUND_SPRITE);
+		board.setSprites(std::make_pair(i, j), sprites);
+	        board.setCharacters(std::make_pair(i, j), chars);
+		std::cout << "Passing here 4 times?" << std::endl;
+	} else if (i != 11 || j < 8 || j > 11) {
+		while (!done || count <= 20) {
+			rdm = rand() % 4;
 			switch (rdm) {
 			case 0:
 				i2 -= 1;
-				direction = WEST;
+				direction = NORTH;
 				break;
 			case 1:
 				i2 += 1;
-				direction = EAST;
+				direction = SOUTH;
 				break;
 			case 2:
 				j2 -= 1;
-				direction = NORTH;
+				direction = EAST;
 				break;
 			case 3:
 				j2 += 1;
-				direction = SOUTH;
+				direction = WEST;
 				break;
 			}
-	}
-	if (board.getCharacters(std::make_pair(i2, j2))[0] != WALL_CHAR
-	    && board.getCharacters(std::make_pair(i2, j2))[0] != GHOST_CHAR) {
-		if (board.getCharacters(std::make_pair(i2, j2))[0] == PACMAN_CHAR)
-			_endgame = true;
-		board.setCharacters(_ghosts[idx].pos, _ghosts[idx].chars);
-		board.setSprites(_ghosts[idx].pos, _ghosts[idx].sprites);
-		ghost.pos = std::make_pair(i2, j2);
-		chars.push_back(GHOST_CHAR);
-		sprites.push_back(GHOST_SPRITE[idx]);
-		ghost.chars = board.getCharacters(std::make_pair(i2, j2));
-		ghost.sprites = board.getSprites(std::make_pair(i2, j2));
-		board.setCharacters(std::make_pair(i2, j2), chars);
-		board.setSprites(std::make_pair(i2, j2), sprites);
-		board.setDirection(std::make_pair(i2, j2), direction);
-		_ghosts[idx] = ghost;
+			if (j2 == -1 || j2 == 20) {
+				ghost.pos = (j2 == -1) ? std::make_pair(i, 19) : std::make_pair(i, 0);
+				board.setCharacters(std::make_pair(i, j), _ghosts[idx].chars);
+				board.setSprites(std::make_pair(i, j), _ghosts[idx].sprites);
+				chars.push_back(GHOST_CHAR);
+				sprites.push_back(GHOST_SPRITE[idx]);
+				ghost.chars = board.getCharacters(ghost.pos);
+				ghost.sprites = board.getSprites(ghost.pos);
+				if (ghost.chars[0] == PACMAN_CHAR) {
+					_endgame = true;
+					return;
+				}
+				board.setCharacters(ghost.pos, chars);
+				board.setSprites(ghost.pos, sprites);
+				board.setDirection(ghost.pos, direction);
+				chars.clear();
+				sprites.clear();
+			} else if (board.getCharacters(std::make_pair(i2, j2))[0] != WALL_CHAR
+			    && board.getCharacters(std::make_pair(i2, j2))[0] != GHOST_CHAR) {
+				if (board.getCharacters(std::make_pair(i2, j2))[0] == PACMAN_CHAR)
+					_endgame = true;
+				board.setCharacters(_ghosts[idx].pos, _ghosts[idx].chars);
+				board.setSprites(_ghosts[idx].pos, _ghosts[idx].sprites);
+				ghost.pos = std::make_pair(i2, j2);
+				chars.push_back(GHOST_CHAR);
+				sprites.push_back(GHOST_SPRITE[idx]);
+				ghost.chars = board.getCharacters(std::make_pair(i2, j2));
+				ghost.sprites = board.getSprites(std::make_pair(i2, j2));
+				board.setCharacters(std::make_pair(i2, j2), chars);
+				board.setSprites(std::make_pair(i2, j2), sprites);
+				board.setDirection(std::make_pair(i2, j2), direction);
+				_ghosts[idx] = ghost;
+				done = true;
+			} else {
+				i2 = i;
+				j2 = j;
+			}
+			++count;
+			std::cout << "Index : " << idx << " is stuck!" << std::endl;
+		}
 	}
 }
 
@@ -237,7 +277,8 @@ void	Pacman::_moveSideway(Board &board, int i, int j,
 	Color color;
 
 //	std::cout <<"Atleast i'm in the correct function" << std::endl;
-	if (j + incr > 0 && j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == BACKGROUND_CHAR) {
+	std::cout << j + incr << " here i come !" << std::endl;
+	if (j + incr >= 0 && j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == BACKGROUND_CHAR) {
 		// Moves pacman to the next position, TODO : switch sprites depending
 		// on wether he is mouth opened or not;
 		chars.push_back(PACMAN_CHAR);
@@ -268,7 +309,7 @@ void	Pacman::_moveSideway(Board &board, int i, int j,
 		color.b = 0;
 		color.g = 1000;
 		_pacmanScene.getBoardGame().setColorForeground(pos_last, color);
-	} else if (j + incr > 0 && j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == FOOD_CHAR) {
+	} else if (j + incr >= 0 && j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == FOOD_CHAR) {
 		// Eats pacgum and increase score
 		chars.push_back(PACMAN_CHAR);
 		sprites.push_back(PACMAN_SPRITE);
@@ -300,6 +341,10 @@ void	Pacman::_moveSideway(Board &board, int i, int j,
 		// other side
 //		std::cout << "je suis la" << std::endl;
 		_pacman = (j + incr == -1) ? std::make_pair(i, 19) : std::make_pair(i, 0);
+		if (board.getCharacters(_pacman)[0] == GHOST_CHAR) {
+			_endgame = true;
+			return;
+		}
 		chars.push_back(PACMAN_CHAR);
 		sprites.push_back(PACMAN_SPRITE);
 		board.setCharacters(_pacman, chars);
