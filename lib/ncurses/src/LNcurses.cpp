@@ -108,16 +108,27 @@ void	LNcurses::drawScene(Scene &scene)
 {
 	try {
 		_get_winSize();
-		if (_screen_size.first < 21 ||_screen_size.second < 50)
+		if (_screen_size.first < 21 ||_screen_size.second < 50) {
 			mvprintw(1, 1, "%c", "Screen size must be 50 x 21 min");
+			return;
+		}
 
 		std::string _title = scene.getTitle();
-		int x = (std::get<0> (_screen_size.first) / 2) - (_title.length() / 2);
+		int x = (std::get<0> (_screen_size) / 2) - (_title.length() / 2);
 		int y = 1;
-
 		mvprintw(x, y, "%s", _title.c_str());
-		y = 20;
+
+		x = (std::get<0> (_screen_size) / 2) - (10);
+		y = 4;
+		std::clock_t now = std::clock();
+		mvprintw(x, y, "Time: %zu",  std::chrono::duration<double, std::milli>(now - scene.getClock()).count() / 1000);
+
+		x = (std::get<0> (_screen_size) / 2) - (10);
+		y = 6;
+		mvprintw(x, y, "Score: %zu", scene.getScore());
+
 		x = std::get<1> (_screen_size) / 2 - 10;
+		y = 20;
 		_start_game = std::make_pair(x, y);
 		_moveCursor(_start_game);
 		for (int i = 0; i < 20; i++) {
