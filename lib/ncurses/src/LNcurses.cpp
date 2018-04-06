@@ -147,57 +147,60 @@ size_t LNcurses::getKey()
 	if ((ret = getch()) == ERR)
 		return 0;
 	switch (ret) {
-		case KEY_LEFT:
-			to_find = 1;
-			break;
-		case KEY_RIGHT:
-			to_find = 2;
-			break;
-		case KEY_UP:
-			to_find = 3;
-			break;
-		case KEY_DOWN:
-			to_find = 4;
-			break;
-		case 'P':
-			to_find = 5;
-			break;
-		case ESCAPE_KEY:
-			to_find = 6;
-			break;
-		case KEY_BACKSPACE:
-			to_find = 7;
-			break;
-		case 'R':
-			to_find = 8;
-			break;
-		case KEY_HOME:
-			to_find = 9;
-			break;
-		case KEY_END:
-			to_find = 10;
-			break;
-		case KEY_NPAGE:
-			to_find = 11;
-			break;
-		case KEY_PPAGE:
-			to_find = 12;
-			break;
+	case KEY_LEFT:
+		to_find = 1;
+		break;
+	case KEY_RIGHT:
+		to_find = 2;
+		break;
+	case KEY_UP:
+		to_find = 3;
+		break;
+	case KEY_DOWN:
+		to_find = 4;
+		break;
+	case 'P':
+		to_find = 5;
+		break;
+	case ESCAPE_KEY:
+		to_find = 6;
+		break;
+	case KEY_BACKSPACE:
+		to_find = 7;
+		break;
+	case 'R':
+		to_find = 8;
+		break;
+	case KEY_HOME:
+		to_find = 9;
+		break;
+	case KEY_END:
+		to_find = 10;
+		break;
+	case KEY_NPAGE:
+		to_find = 11;
+		break;
+	case KEY_PPAGE:
+		to_find = 12;
+		break;
+	case 10:
+		to_find = 13;
+		break;
 	}
 	return to_find;
 /*	for (unsigned int i = 0; i < DICO.size(); i++) {
-		if (std::get<0> (DICO[i]) == to_find) {
-			return std::get<1> (DICO[i]);
-		}
+	if (std::get<0> (DICO[i]) == to_find) {
+	return std::get<1> (DICO[i]);
+	}
 	}
 	return "NO_EVENT";*/
 	/*
-	auto it = std::find_if(DICO.begin(), DICO.end(),
-		[](const std::pair<size_t, std::string> &element){
-			return element.first == to_find;
-		}
-	);
-	return it;*/
+	  auto it = std::find_if(DICO.begin(), DICO.end(),
+	  [](const std::pair<size_t, std::string> &element){
+	  return element.first == to_find;
+	  }
+	  );
+	  return it;*/
 }
 
 void    LNcurses::drawText(Text &text)
