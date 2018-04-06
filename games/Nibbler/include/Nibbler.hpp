@@ -34,6 +34,7 @@ public:
 private:
 	// Private member functions
         void	_setBoard();
+	void	_setHeader();
 	void	_spawnFood();
 	void	_updateBoard(Board &board, size_t event);
 	void	_moveSideway(Board &board, long unsigned int i, long unsigned int j,
@@ -43,6 +44,7 @@ private:
 	
 private:
         // Properties
+	std::clock_t		_startClock;
         Scene			_nibblerScene;
 	std::list<Position>	_snake;
 	size_t			_score;

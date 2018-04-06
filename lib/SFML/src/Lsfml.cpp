@@ -117,35 +117,37 @@ size_t	Lsfml::getKey()
 	size_t to_find = 0;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			to_find = 1;
+		to_find = 1;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			to_find = 2;
+		to_find = 2;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			to_find = 3;
+		to_find = 3;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			to_find = 4;
+		to_find = 4;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-			to_find = 5;
+		to_find = 5;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			to_find = 6;
+		to_find = 6;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
-			to_find = 7;
+		to_find = 7;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-			to_find = 8;
+		to_find = 8;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Home))
-			to_find = 9;
+		to_find = 9;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::End))
-			to_find = 10;
+		to_find = 10;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown))
-			to_find = 11;
+		to_find = 11;
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp))
-			to_find = 12;
+		to_find = 12;
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+		to_find = 13;
 /*	for (unsigned int i = 0; i < DICO.size(); i++) {
-		if (std::get<0> (DICO[i]) == to_find) {
-			return std::get<1> (DICO[i]);
-		}
-		}
-		return "NO_EVENT";*/
+	if (std::get<0> (DICO[i]) == to_find) {
+	return std::get<1> (DICO[i]);
+	}
+	}
+	return "NO_EVENT";*/
 	return to_find;
 }
 

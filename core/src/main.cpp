@@ -40,7 +40,7 @@ std::vector<std::string> getResources(std::string path)
 	return libs;
 }
 
-void	loadMenu(ILib *lib_handler, std::string &lib_path, std::string &game_path)
+void	loadMenu(/*std::unique_ptr<ILib *> lib_handler*/ILib *lib_handler, std::string &lib_path, std::string &game_path)
 {
 	std::vector<Button> games;
 	std::vector<Button> libs;
@@ -79,7 +79,7 @@ void	loadMenu(ILib *lib_handler, std::string &lib_path, std::string &game_path)
 	libs.push_back(Button{"sfml", "./games/Nibbler/misc/sprites/walls.png", Position(25, 50), false});
 	libs.push_back(Button{"sdl", "./games/Nibbler/misc/sprites/food.png", Position(30, 50), false});*/
 
-	while ((event = lib_handler->getKey()) != 7) {
+	while ((event = lib_handler->getKey()) != 13) {
 		for (std::vector<Button>::iterator it = games.begin(); it != games.end(); ++it) {
 			lib_handler->drawButton(*it);
 		}
@@ -159,9 +159,11 @@ int	main(int ac, char **av)
 		std::cout << "CRASH: [" << str << "]\n";
 		throw e;
 	}
+//	std::unique_ptr<ILib *> lib_handler;
 	ILib *lib_handler;
 	IGame *game_handler;
 	try {
+//		lib_handler = std::make_unique<ILib *> (load_graph->createSym());
 		lib_handler = load_graph->createSym();
 		//game_handler = load_game->createSym();
 	} catch (const GraphicalInitError *e) {
@@ -173,7 +175,8 @@ int	main(int ac, char **av)
 	std::string games_path;
 	
 	loadMenu(lib_handler, lib_path, games_path);
-	delete lib_handler;
+	delete (lib_handler);
+//	std::unique_ptr<ILib *> lib_handler;
 	try {
 		load_graph = new Dlloader<ILib> (lib_path);
 		load_game = new Dlloader<IGame> (games_path);
@@ -183,8 +186,8 @@ int	main(int ac, char **av)
 		throw e;
 	}
 	try {
-		lib_handler = load_graph->createSym();
-		game_handler = load_game->createSym();
+		lib_handler = /*std::make_unique<ILib *>*/ load_graph->createSym();
+		game_handler = /*std::make_unique<IGame *>*/ load_game->createSym();
 	} catch (const GraphicalInitError *e) {
 		std::string str = e->what();
 		std::cout << "CRASH INIT: [" << str << "]\n";
@@ -193,29 +196,57 @@ int	main(int ac, char **av)
 	try {
 		size_t event = 0;
 		int libPos = 0;
+		int gamePos = 0;
 		while (graph_libs[libPos] != lib_path)
 			++libPos;
+		while (games_libs[gamePos] != games_path)
+			++gamePos;
 		while (game_handler->endGame() == false) {
 			event = lib_handler->getKey();
+			if (event == 5)
+				game_handler->menuPause();
 			if (event == 6)
 				break;
-			if (event >= 9 && event <= 10) {// 11 & 12 to be added
+			if (event >= 8 && event <= 12) {
 				switch (event) {
+				case 8:
+					delete (game_handler);
+					delete (load_game);
+					load_game = new Dlloader<IGame> (games_libs[gamePos]);
+					game_handler = load_game->createSym();
+					break;
 				case 9:
+					delete (lib_handler);
 					delete (load_graph);
-//					delete lib_handler;
 					--libPos;
 					libPos = (libPos == -1) ? graph_libs.size() - 1 : libPos;
 					load_graph = new Dlloader<ILib> (graph_libs[libPos]);
 					lib_handler = load_graph->createSym();
 					break;
 				case 10:
+					delete (lib_handler);
 					delete (load_graph);
-//					delete (lib_handler);
 					++libPos;
 					libPos = (libPos == (int) graph_libs.size()) ? 0 : libPos;
 					load_graph = new Dlloader<ILib> (graph_libs[libPos]);
 					lib_handler = load_graph->createSym();
+					break;
+				case 11:
+					delete (game_handler);
+					delete (load_game);
+					std::cout << "am i here ? "<< std::endl;
+					--gamePos;
+					gamePos = (gamePos == -1) ? games_libs.size() - 1 : gamePos;
+					load_game = new Dlloader<IGame> (games_libs[gamePos]);
+					game_handler = load_game->createSym();
+					break;
+				case 12:
+					delete (game_handler);
+					delete (load_game);
+					++gamePos;
+					gamePos = (gamePos == (int) games_libs.size()) ? 0 : gamePos;
+					load_game = new Dlloader<IGame> (games_libs[gamePos]);
+					game_handler = load_game->createSym();
 					break;
 				}
 			}

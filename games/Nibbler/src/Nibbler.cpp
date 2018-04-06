@@ -34,10 +34,19 @@ Nibbler::Nibbler()
 	_gameStatus = INGAME;
 	_spawnFood();
 	_timeLimit = 270000;
+	_startClock = std::clock();
+	_setHeader();
 }
 
 Nibbler::~Nibbler()
 {
+}
+
+void	Nibbler::_setHeader()
+{
+	_nibblerScene.getTitle() = "NIBBLER";
+	_nibblerScene.getScore() = 0;
+	_nibblerScene.getClock() = std::clock() - _startClock;
 }
 
 void	Nibbler::_setBoard()
@@ -110,9 +119,11 @@ Scene	&Nibbler::updateScene(size_t event)
 	static std::clock_t	startTime = std::clock();
 	static size_t	tryEvent = 0;
 
+	if (_gameStatus == INGAME)
+		_nibblerScene.getClock() = std::clock() - _startClock;
 	if (event != 0)
 		tryEvent = event;
-	if (std::clock() - startTime > _timeLimit) {
+	if (std::clock() - startTime > _timeLimit && _gameStatus == INGAME) {
 		_updateBoard(_nibblerScene.getBoardGame(), tryEvent);
 		startTime = std::clock();
 		tryEvent = 0;
@@ -362,8 +373,15 @@ void	Nibbler::saveScore(std::string nickname)
 
 void	Nibbler::menuPause()
 {
+	static bool paused = false;
 	//pauses the game (popup?)
-	_gameStatus = PAUSE;
+	if (paused) {
+		_gameStatus = INGAME;
+		paused = false;
+	} else {
+		_gameStatus = PAUSE;
+		paused = true;
+	}
 }
 
 bool	Nibbler::endGame()

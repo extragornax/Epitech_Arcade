@@ -27,16 +27,27 @@ extern "C"
 
 Pacman::Pacman()
 {
+	std::cout << "Building Pacman..." << std::endl;
 	_setBoard();
 	srand(time(NULL));
 	_endgame = false;
 	_score = 0;
 	_gameStatus = INGAME;
 	_timeLimit = 270000; // to be severely reduced.
+	_startClock = std::clock();
+	_setHeader();
+	std::cout << "...building done !" << std::endl;
 }
 
 Pacman::~Pacman()
 {
+}
+
+void	Pacman::_setHeader()
+{
+	_pacmanScene.getTitle() = "PACMAN";
+	_pacmanScene.getScore() = 0;
+	_pacmanScene.getClock() = std::clock() - _startClock;
 }
 
 void	Pacman::_setBoard()
@@ -75,7 +86,6 @@ void	Pacman::_setBoard()
 				color.g = 0;
 				_pacmanScene.getBoardGame().setColorForeground(std::make_pair(i, j), color);
 			} else if (baseMap[i][j] == '2') {
-//				std::cout << "ghostcount : " << ghostCount<< std::endl;
 				ghost.pos = std::make_pair(i, j);
 				_ghosts.push_back(ghost);
 				sprites.push_back(GHOST_SPRITE[ghostCount]);
@@ -116,9 +126,11 @@ Scene	&Pacman::updateScene(size_t event)
 	static size_t	tryEvent = 0;
 	static int beforeGhosts = 0;
 
+	if (_gameStatus == INGAME)
+		_pacmanScene.getClock() = std::clock() - _startClock;
 	if (event != 0)
 		tryEvent = event;
-	if (std::clock() - startTime > _timeLimit) {
+	if (std::clock() - startTime > _timeLimit && _gameStatus == INGAME) {
 		if (beforeGhosts >= 7) {
 			_updateGhosts(_pacmanScene.getBoardGame(), 0);
 			if (beforeGhosts >= 8)
@@ -169,16 +181,14 @@ void	Pacman::_updateGhosts(Board &board, int idx)
 		board.setCharacters(std::make_pair(9,9), chars);
 		sprites.push_back(GHOST_SPRITE[idx]);
 		board.setSprites(std::make_pair(9,9), sprites);
-	        std::cout << board.getSprites(std::make_pair(9,9))[0] << std::endl;
 		chars.clear();
 		sprites.clear();
 		chars.push_back(BACKGROUND_CHAR);
 		sprites.push_back(BACKGROUND_SPRITE);
 		board.setSprites(std::make_pair(i, j), sprites);
 	        board.setCharacters(std::make_pair(i, j), chars);
-		std::cout << "Passing here 4 times?" << std::endl;
 	} else if (i != 11 || j < 8 || j > 11) {
-		while (!done || count <= 20) {
+		while (!done && count <= 20) {
 			rdm = rand() % 4;
 			switch (rdm) {
 			case 0:
@@ -215,6 +225,7 @@ void	Pacman::_updateGhosts(Board &board, int idx)
 				board.setDirection(ghost.pos, direction);
 				chars.clear();
 				sprites.clear();
+				done = true;
 			} else if (board.getCharacters(std::make_pair(i2, j2))[0] != WALL_CHAR
 			    && board.getCharacters(std::make_pair(i2, j2))[0] != GHOST_CHAR) {
 				if (board.getCharacters(std::make_pair(i2, j2))[0] == PACMAN_CHAR)
@@ -236,7 +247,6 @@ void	Pacman::_updateGhosts(Board &board, int idx)
 				j2 = j;
 			}
 			++count;
-			std::cout << "Index : " << idx << " is stuck!" << std::endl;
 		}
 	}
 }
@@ -276,8 +286,6 @@ void	Pacman::_moveSideway(Board &board, int i, int j,
 	Position pos_last = _pacman;
 	Color color;
 
-//	std::cout <<"Atleast i'm in the correct function" << std::endl;
-	std::cout << j + incr << " here i come !" << std::endl;
 	if (j + incr >= 0 && j + incr < 20 && board.getCharacters(std::make_pair(i, j + incr))[0] == BACKGROUND_CHAR) {
 		// Moves pacman to the next position, TODO : switch sprites depending
 		// on wether he is mouth opened or not;
@@ -339,7 +347,6 @@ void	Pacman::_moveSideway(Board &board, int i, int j,
 //		   && board.getCharacters(std::make_pair(i, j + incr))[0] == BACKGROUND_CHAR) {
 		// If you happen to be able to go out of bounds of the map, means you should be teleported to the
 		// other side
-//		std::cout << "je suis la" << std::endl;
 		_pacman = (j + incr == -1) ? std::make_pair(i, 19) : std::make_pair(i, 0);
 		if (board.getCharacters(_pacman)[0] == GHOST_CHAR) {
 			_endgame = true;
@@ -496,8 +503,15 @@ void	Pacman::saveScore(std::string nickname)
 
 void	Pacman::menuPause()
 {
+	static bool paused = false;
 	//pauses the game (popup?)
-	_gameStatus = PAUSE;
+	if (paused) {
+		_gameStatus = INGAME;
+		paused = false;
+	} else {
+		_gameStatus = PAUSE;
+		paused = true;
+	}	
 }
 
 bool	Pacman::endGame()
