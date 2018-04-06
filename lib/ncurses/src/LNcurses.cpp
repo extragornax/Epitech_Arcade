@@ -121,7 +121,8 @@ void	LNcurses::drawScene(Scene &scene)
 		x = (std::get<0> (_screen_size) / 2) - (10);
 		y = 4;
 		std::clock_t now = std::clock();
-		mvprintw(x, y, "Time: %zu",  std::chrono::duration<double, std::milli>(now - scene.getClock()).count() / 1000);
+		mvprintw(x, y, "Time: %im%i",  (int) std::chrono::duration<double, std::milli>(now - scene.getClock()).count() / 1000 / 60,
+		(int) std::chrono::duration<double, std::milli>(now - scene.getClock()).count() / 1000);
 
 		x = (std::get<0> (_screen_size) / 2) - (10);
 		y = 6;
