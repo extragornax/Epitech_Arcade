@@ -29,7 +29,7 @@ std::vector<std::string> getResources(std::string path)
 		while ((lib = readdir(resourcesDir))) {
 			if (lib->d_type != isFile)
 				continue;
-			if (strcmp(lib->d_name, ".") != 0 && strcmp(lib->d_name, "..") != 0) {
+			if (strcmp(lib->d_name, ".") != 0 && strcmp(lib->d_name, "..") != 0 && strcmp(lib->d_name, "Makefile") != 0) {
 				save.append(lib->d_name);
 				libs.push_back(save);
 				save = path;
@@ -46,13 +46,38 @@ void	loadMenu(ILib *lib_handler, std::string &lib_path, std::string &game_path)
 	std::vector<Button> libs;
 	std::vector<Button> *ptr = &games;
 	size_t event = 0;
+	std::vector<std::string> graph_libs = getResources("./lib/");
+	std::vector<std::string> games_libs = getResources("./games/");
 
-	games.push_back(Button{"nibbler", "./games/Nibbler/misc/sprites/snake_head.png", Position(10, 10), true});
-	games.push_back(Button{"pacman", "./games/Pacman/misc/sprites/pacman.png", Position(10, 40), false});
+	size_t x = 50;
+	size_t y = 20;
+	for (std::vector<std::string>::iterator it = graph_libs.begin(); it != graph_libs.end(); ++it) {
+		if (it == graph_libs.begin())
+			libs.push_back(Button{*it, "./games/Nibbler/misc/sprites/background.png", Position(y, x), true});
+		else
+			libs.push_back(Button{*it, "./games/Pacman/misc/sprites/walls.png", Position(y, x), false});
+ 		y += 5;
+	}
+	y = 20;
+	x = 10;
+	for (std::vector<std::string>::iterator it = games_libs.begin(); it != games_libs.end(); ++it) {
+		if (it == games_libs.begin())
+			games.push_back(Button{*it, "./games/Nibbler/misc/sprites/snake_head.png", Position(y, x), true});
+		else
+			games.push_back(Button{*it, "./games/Pacman/misc/sprites/pacman.png", Position(y, x), false});
+		y += 5;
+	}
+	for (std::vector<std::string>::iterator it = games_libs.begin(); it != games_libs.end(); ++it) {
+		std::cout << *it << std::endl;
+	}
+	//while (1);
 
-	libs.push_back(Button{"ncurses", "./games/Nibbler/misc/sprites/background.png", Position(100, 10), true});
-	libs.push_back(Button{"sfml", "./games/Nibbler/misc/sprites/walls.png", Position(100, 40), false});
-	libs.push_back(Button{"sdl", "./games/Nibbler/misc/sprites/food.png", Position(100, 70), false});
+	/*games.push_back(Button{"pacman", "./games/Nibbler/misc/sprites/snake_head.png", Position(20, 10), true});
+	games.push_back(Button{"nibbler", "./games/Pacman/misc/sprites/pacman.png", Position(25, 10), false});
+
+	libs.push_back(Button{"ncurses", "./games/Nibbler/misc/sprites/background.png", Position(20, 50), true});
+	libs.push_back(Button{"sfml", "./games/Nibbler/misc/sprites/walls.png", Position(25, 50), false});
+	libs.push_back(Button{"sdl", "./games/Nibbler/misc/sprites/food.png", Position(30, 50), false});*/
 
 	while ((event = lib_handler->getKey()) != 7) {
 		for (std::vector<Button>::iterator it = games.begin(); it != games.end(); ++it) {
@@ -100,18 +125,19 @@ void	loadMenu(ILib *lib_handler, std::string &lib_path, std::string &game_path)
 	}
 	for (std::vector<Button>::iterator it = games.begin(); it != games.end(); ++it) {
 		if ((*it).active == true) {
-			game_path = "./games/lib_arcade_";
+			//game_path = "./games/lib_arcade_";
 			game_path += (*it).text;
-			game_path += ".so";
+			//game_path += ".so";
 		}
 	}
 	for (std::vector<Button>::iterator it = libs.begin(); it != libs.end(); ++it) {
 		if ((*it).active == true) {
-			lib_path = "./lib/lib_arcade_";
+			//lib_path = "./lib/lib_arcade_";
 			lib_path += (*it).text;
-			lib_path += ".so";
+			//lib_path += ".so";
 		}
 	}
+	lib_handler->clear();
 }
 
 int	main(int ac, char **av)

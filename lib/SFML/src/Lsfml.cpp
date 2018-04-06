@@ -80,7 +80,7 @@ void	Lsfml::drawDisp(Disp &disp)
 		else {
 			sf::Sprite toDraw;
 			toDraw.setTexture(texture);
-			toDraw.setPosition(std::get<0> (disp.pos), std::get<1> (disp.pos));
+			toDraw.setPosition(std::get<1> (disp.pos), std::get<0> (disp.pos));
 			_window.draw(toDraw);
 		}
 	} catch(std::string const &str) {
@@ -99,7 +99,12 @@ void	Lsfml::drawButton(Button &button)
 		else {
 			sf::Sprite toDraw;
 			toDraw.setTexture(texture);
-			toDraw.setPosition(std::get<0> (button.pos), std::get<1> (button.pos));
+			toDraw.setPosition(std::get<1> (button.pos) * PIX_SIZE / 2, std::get<0> (button.pos) * PIX_SIZE / 2);
+			if (button.active == true)
+				toDraw.setColor(sf::Color(255, 255, 255, 255));
+			else
+				toDraw.setColor(sf::Color(255, 255, 255, 100));
+			
 			_window.draw(toDraw);
 		}
 	} catch(std::string const &str) {
@@ -154,7 +159,7 @@ void    Lsfml::drawText(Text &text)
 		else {
 			sf::Text toDraw(text.text, font, text.size);
 			//	toDraw.setColor(sf::Color(text.color.r, text.color.g, text.color.b, text.color.a));
-			toDraw.setPosition(std::get<0> (text.pos), std::get<1> (text.pos));
+			toDraw.setPosition(std::get<1> (text.pos), std::get<0> (text.pos));
 			_window.draw(toDraw);
 		}
 	} catch(std::string const &str) {
