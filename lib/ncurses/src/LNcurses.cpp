@@ -5,6 +5,8 @@
 // ncurses constructor
 //
 
+#include <chrono>
+#include <ctime>
 #include <cstddef>
 #include <iostream>
 #include <algorithm>
@@ -135,7 +137,7 @@ void	LNcurses::drawScene(Scene &scene)
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
 //				init_color(COLOR_RED, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).r, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).g, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).b);
-//			        init_color(COLOR_BLACK, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).r, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).g, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).b);
+//				init_color(COLOR_BLACK, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).r, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).g, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).b);
 				init_pair(1, COLOR_GREEN, COLOR_BLACK);
 				attron(COLOR_PAIR(1) | A_BOLD);
 				mvprintw(i + x, j + y, "%c", scene.getBoardGame().getCharacters(std::make_pair(i, j)).at(0));
