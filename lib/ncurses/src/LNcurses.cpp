@@ -5,6 +5,8 @@
 // ncurses constructor
 //
 
+#include <chrono>
+#include <ctime>
 #include <cstddef>
 #include <iostream>
 #include <algorithm>
@@ -108,20 +110,34 @@ void	LNcurses::drawScene(Scene &scene)
 {
 	try {
 		_get_winSize();
+		if (_screen_size.first < 21 ||_screen_size.second < 50) {
+			mvprintw(1, 1, "%c", "Screen size must be 50 x 21 min");
+			return;
+		}
 
 		std::string _title = scene.getTitle();
 		int x = (std::get<0> (_screen_size) / 2) - (_title.length() / 2);
 		int y = 1;
-
 		mvprintw(x, y, "%s", _title.c_str());
-		y = std::get<0> (_screen_size) / 2 - 10;
+
+		x = (std::get<0> (_screen_size) / 2) - (10);
+		y = 4;
+		std::clock_t now = std::clock();
+		mvprintw(x, y, "Time: %im%i",  (int) std::chrono::duration<double, std::milli>(now - scene.getClock()).count() / 1000 / 60,
+		(int) std::chrono::duration<double, std::milli>(now - scene.getClock()).count() / 1000);
+
+		x = (std::get<0> (_screen_size) / 2) - (10);
+		y = 6;
+		mvprintw(x, y, "Score: %zu", scene.getScore());
+
 		x = std::get<1> (_screen_size) / 2 - 10;
+		y = 20;
 		_start_game = std::make_pair(x, y);
 		_moveCursor(_start_game);
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20; j++) {
 //				init_color(COLOR_RED, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).r, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).g, scene.getBoardGame().getColorBackground(std::make_pair(i, j)).b);
-//			        init_color(COLOR_BLACK, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).r, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).g, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).b);
+//				init_color(COLOR_BLACK, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).r, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).g, scene.getBoardGame().getColorForeground(std::make_pair(i, j)).b);
 				init_pair(1, COLOR_GREEN, COLOR_BLACK);
 				attron(COLOR_PAIR(1) | A_BOLD);
 				mvprintw(i + x, j + y, "%c", scene.getBoardGame().getCharacters(std::make_pair(i, j)).at(0));
